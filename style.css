@@ -4,7 +4,7 @@
 
 body{
 	
-	
+	background-color: #ddd;
 }
 
 .wrapper{
@@ -19,9 +19,14 @@ body{
 }
 
 #map-canvas{
-	
+	border-left:1px solid #444;
 }
 
 .rightCol{
 	padding:0;
+}
+
+.leftCol{
+	
+	
 }

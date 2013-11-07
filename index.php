@@ -33,27 +33,64 @@
 		<div id="map-canvas"></div>
 	</div>
 	
+	
+	<div class="modal fade" id="zipcode">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+	
+	
+	
+	
+	
  
 	<script type="text/javascript">
 	
 	
 	function get_location() {
-  	var coordinates = navigator.geolocation.getCurrentPosition(show_map, manual_geolocation);
+  	var coordinates = navigator.geolocation.getCurrentPosition(show_map, handle_error);
 	}
 	
 
 	function show_map(position) {
-	 	var latitude = position.coords.latitude; // GET LATITUTDE FROM BROWSER
-	 	var longitude = position.coords.longitude; // GET LONGITUTDE FROM BROWSER
-		var coords = {'lat':position.coords.latitude,'long':position.coords.longitude}; // NATIVE JSON OF LAT & LONG
+	
+	  // GET LATITUTDE FROM BROWSER
+	 	var latitude = position.coords.latitude;
+	 	
+	 	// GET LONGITUTDE FROM BROWSER 
+	 	var longitude = position.coords.longitude; 
+	 	
+	 	// NATIVE JSON OF LAT & LONG
+		var coords = {'lat':position.coords.latitude,'long':position.coords.longitude}; 
+		
   	// IF JSON EXISTS, INITALIZE THE MAP WITH CORRECT COORDINATES AS MAP CENTER, ELSE RUN MODAL TO GRAB ADDRESS	
 		if(coords){  initialize(coords);  } else { manual_geolocation();  }	
 	
 	}
 	
-	function manual_geolocation(){
+	
+	function handle_error(err) {
+	//
 		
-		
+  	
+  	if (err.code == 1) {
+    	console.log(err);
+    	jQuery('#zipcode').modal('show');
+		}
 		
 	}
 	
@@ -66,16 +103,14 @@
 		var mapBox = jQuery('#map-canvas');
 				 
 		mapBox.css('height', trueHeight);
-  
-  	//console.log(coords.lat);
-          
-     var mapOptions = {
+           
+    var mapOptions = {
        center: new google.maps.LatLng(coords.lat, coords.long),
        zoom: 8,
        mapTypeId: google.maps.MapTypeId.ROADMAP
-     };
+    };
         
-     var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+    var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 	
 	}
 				
