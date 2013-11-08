@@ -16,17 +16,24 @@
 <?php include('functions.php'); $db = new Connection(); ?>
 
 	<div class="wrapper header">
-		<nav class="nav">
-			<ul class="navbar">
-				<li><a href="">About kites</a></li>
+		<nav class="navbar navbar-inverse" role="navigation">
+			<form class="navbar-form navbar-right" role="search" id="changeZip">
+	      <div class="form-group">
+	        <input type="text" class="form-control"  placeholder="Enter a new zipcode">
+	      </div>
+	      <button type="submit" class="btn btn-default btn-info" id="">Submit</button>
+	    </form>
+			<ul class="nav navbar-nav  pull-right">
+				<li><a href="">About Swallow-tailed Kites</a></li>
 				<li><a href="">Recent sightings</a></li>
 				<li><a href="">Report a sighting</a></li>
 			</ul>
+			<a class="navbar-brand" href="#">KiteTracker</a>
 		</nav>
 	</div>
 	
 	<div class="col-lg-3 leftCol">
-	
+		
 	</div>
 	
 	<div class="col-lg-9 rightCol">
@@ -59,7 +66,16 @@
 
 	
 <script type="text/javascript">
+
+jQuery('#changeZip').submit(function(event){
+
+	event.preventDefault();
 	
+	var zip = jQuery(this).find('input[type="text"]').val();
+	
+	geocode_zip(zip);
+	
+});
 	
 function get_location() {
 	// GET HTML5 BROWSER COORDINATES IS AVAILABLE
@@ -70,7 +86,6 @@ function zip_error(){
 	jQuery('#zipForm').prepend('<div id="zipError" class="alert alert-danger"><p></p></div>');
 	jQuery('#zipError p').text('Please enter a valid Zip Code')
 }
-	
 
 function show_map(position) {
 
@@ -83,7 +98,7 @@ function show_map(position) {
  	// NATIVE JSON OF LAT & LONG
 	var coords = {'lat':position.coords.latitude,'long':position.coords.longitude}; 
 	
-	// IF JSON EXISTS, INITALIZE THE MAP WITH CORRECT COORDINATES AS MAP CENTER, ELSE RUN MODAL TO GRAB ADDRESS	
+	// IF JSON EXISTS, INITALIZE THE MAP WITH CORRECT COORDINATES AS MAP CENTER, ELSE RUN MODAL TO GRAB ZIP CODE	
 	if(coords){  initialize(coords);  } else { manual_geolocation();  }	
 
 }
@@ -120,8 +135,8 @@ function handle_error(err) {
 	}
 	
 }
-	
-	
+
+
 function geocode_zip(zip){
 	// DEFINE MAP
 	var map;
@@ -129,8 +144,20 @@ function geocode_zip(zip){
 	var geocoder;
     	geocoder = new google.maps.Geocoder();
 	// START GEOCODING THE ZIPCODE
-	geocoder.geocode( { 'address': zip}, function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {  
+	geocoder.geocode( { 'address': zip}, function(results, status) { 
+	
+		if (status == google.maps.GeocoderStatus.OK) {   
+			
+			// BUILD BOUNDARIES OBJECT TO SEND VIA AJAX TO GRAB NEARBY SIGHTINGS
+			var topRight = results[0].geometry.viewport.getNorthEast();
+			var bottomLeft = results[0].geometry.viewport.getSouthWest();
+			var viewport = {'topRightLat':topRight.lat(),
+											'topRightLng':topRight.lng(), 
+											'bottomLeftLat': bottomLeft.lat(),
+											'bottomLeftLng':bottomLeft.lng()};
+											
+			var serializedViewport = jQuery.param(viewport); 							
+		
 			// DEFINE COORDINATES OBJECT WITH LAT AND LONG 
 			var coords = {"lat":results[0].geometry.location.lat(),"long":results[0].geometry.location.lng()}; 
 			// HIDE MODAL BEFORE INITIALIZING NEW MAP
@@ -138,55 +165,58 @@ function geocode_zip(zip){
 		} else {
 			// IF NO COORDINATES OR ERROR IN GEOCODING, SET MAP OBJECT TO EQUATOR
 			var coords = {"lat":"0","long":"0"}
+			var viewport = {'topRightLat':'0',
+											'topRightLng':'0', 
+											'bottomLeftLat':'0',
+											'bottomLeftLng':'0'};
 		}
 		// INITALIZE THE MAP WITH ZIP CODE COORDINATES
-		initialize(coords);
+		initialize(coords, serializedViewport);
+		
 	});
 } 
 
 
      
-  function initialize(coords) { 
+  function initialize(coords, serializedViewport) { 
      
   var height = jQuery(window).height();
-	var nav = jQuery('.wrapper.header').height();
+	var nav = jQuery('.header nav').height();
 	var trueHeight = height - nav; 
 	var mapBox = jQuery('#map-canvas');
+	var leftCol = jQuery('.leftCol');
 	
 	// ADD HEIGHT OF PAGE TO MAP			 
 	mapBox.css('height', trueHeight);
+	leftCol.css('height', trueHeight);
     
     // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD      
     var mapOptions = {
        center: new google.maps.LatLng(coords.lat, coords.long),
-       zoom: 8,
+       zoom: 10,
        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-           
-    var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions, markser);
-    
-    var coordinates = coords;
-    
-    jQuery.ajax({
-    	type: "GET",
-	    url: "findSightings.php",
-	    dataType:'JSON',
-			data: coordinates,
-			success: function(data){
-				
-				
-			}
-	    
-	    
-    })
     
     
     var markser = setMarkers(map);
     
+    // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
+    var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions, markser);
     
-    // for (var i =0; i < markerArray.length; i++) {
-	
-	}
+ 
+    jQuery.get({
+	    url: "findSightings.php",
+	    data: serializedViewport,
+	    dataType:'json',
+			success: function(data){
+				
+				alert('Hello');
+				
+			}
+	    
+    });
+    	
+	} // END INITALIZE FUNCTION
 	
 	
 	function setMarkers(map) {
