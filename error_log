@@ -1,0 +1,11 @@
+[06-Nov-2013 21:34:56] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_FUNCTION in /home/trevor/public_html/KiteTracker/functions.php on line 5
+[06-Nov-2013 21:35:07] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_FUNCTION in /home/trevor/public_html/KiteTracker/functions.php on line 5
+[06-Nov-2013 21:35:09] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_FUNCTION in /home/trevor/public_html/KiteTracker/functions.php on line 5
+[06-Nov-2013 21:35:27] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_FUNCTION in /home/trevor/public_html/KiteTracker/functions.php on line 5
+[06-Nov-2013 21:35:48] PHP Parse error:  syntax error, unexpected T_OBJECT_OPERATOR in /home/trevor/public_html/KiteTracker/functions.php on line 27
+[06-Nov-2013 21:35:57] PHP Warning:  Missing argument 1 for Connection::__construct(), called in /home/trevor/public_html/KiteTracker/index.php on line 12 and defined in /home/trevor/public_html/KiteTracker/functions.php on line 21
+[06-Nov-2013 21:35:57] PHP Warning:  Missing argument 2 for Connection::__construct(), called in /home/trevor/public_html/KiteTracker/index.php on line 12 and defined in /home/trevor/public_html/KiteTracker/functions.php on line 21
+[06-Nov-2013 21:35:57] PHP Warning:  Missing argument 3 for Connection::__construct(), called in /home/trevor/public_html/KiteTracker/index.php on line 12 and defined in /home/trevor/public_html/KiteTracker/functions.php on line 21
+[06-Nov-2013 21:35:57] PHP Warning:  Missing argument 4 for Connection::__construct(), called in /home/trevor/public_html/KiteTracker/index.php on line 12 and defined in /home/trevor/public_html/KiteTracker/functions.php on line 21
+[06-Nov-2013 21:36:50] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_FUNCTION in /home/trevor/public_html/KiteTracker/functions.php on line 7
+[06-Nov-2013 21:43:44] PHP Parse error:  syntax error, unexpected '"' in /home/trevor/public_html/KiteTracker/functions.php on line 22

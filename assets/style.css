@@ -4,7 +4,7 @@
 
 body{
 	
-	
+	background-color: #ddd;
 }
 
 .wrapper{
@@ -16,4 +16,32 @@ body{
 .wrapper.header{
 	background-color: #000000;
 	min-height:100px;	
+}
+
+#map-canvas{
+	border-left:1px solid #444;
+}
+
+.rightCol{
+	padding:0;
+}
+
+.leftCol{
+	
+	
+}
+.modal-footer{
+	margin-top:0;
+	text-align:center;
+}
+#zipcode .modal-body{
+	padding:10px 20px;
+	background-color:#eeeeee;
+}
+#zipcode .alert{
+	display:block;
+	width:100%;
+}
+#zipcode form .form-group{
+	width:71%;	
 }
