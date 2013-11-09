@@ -197,7 +197,7 @@ function geocode_zip(zip){
      
 function initialize(coords) { 
    	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
-    var serializedCoords = jQuery.param(coords); 
+    var serializedCoords = jQuery.param(coords); console.log(serializedCoords);
   	
   	// DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
   	var height = jQuery(window).height();
@@ -237,7 +237,7 @@ function initialize(coords) {
 	
 function add_map_markers(map, id, year, species_id, lat, lng) {
 
-	var contentString = '<div class="google-info-window">'+'<h3>'+ species_id +'</h3>'+'<div class="info-window-content">'+
+	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ species_id +'</h3>'+'<div class="info-window-content">'+
 	  '<h5>'+id+'</h5> '+'<p>(Data recorded in '+year+').</p>'+'</div>'+'</div>';
 	
 	var marker = new google.maps.Marker({
@@ -248,17 +248,25 @@ function add_map_markers(map, id, year, species_id, lat, lng) {
 	var infowindow = new google.maps.InfoWindow({
 	  content: contentString
 	});
-	// ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFOWINDOW
+	
+	// ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFO WINDOW
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.open(map,marker);
-	});
+	});	
 }
 
-function build_sightings_list(map,data){
+function open_info_window(id){
+	
+	infowindow.open(map,marker);
+	
+}
+
+
+function build_sightings_list(map,data){ 
 			
     for ( var i = 0; i < data.length; i++) {
     
-    	var sightingsHTML = '<li><a href="" ><h4>'+data[i].species_id+'</h4></a></li>';
+    	var sightingsHTML = '<li><a href="#" onclick="open_info_window('+data[i].Id+');" id="'+data[i].Id+'"><h4>'+data[i].species_id+'</h4></a></li>';
     	
     	jQuery('#sightingsPanel').append(sightingsHTML);
     	
@@ -267,7 +275,6 @@ function build_sightings_list(map,data){
     	var species_id = data[i].species_id;
     	var lat = data[i].lat;
     	var lng = data[i].long;
-		
 		
 		add_map_markers(map, id, year, species_id, lat, lng);
 				

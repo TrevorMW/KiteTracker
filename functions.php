@@ -14,10 +14,10 @@ class Connection {
 			$hosts = 'mysql:host='.DB_HOST.';'; 
 			$hosts .= 'dbname='.DB_NAME.'';
 		
-      $db = new PDO($hosts, DB_USER, DB_PASS);
+			$db = new PDO($hosts, DB_USER, DB_PASS);
       
-      return $db;
-      
+			return $db;
+      	
              
     } catch(PDOException $e){  
         

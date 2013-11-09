@@ -59,19 +59,20 @@ body{
 	margin:0;	
 	padding:0; 
 	background:#444;
-	border-bottom:1px solid #000;
+	border-bottom:1px solid #444;
 }
 
 .sightings li a,
 .sightings li a:visited{
 	display:block;
-	background:#444;
+	background:#ddd;
 	width:100%;
 }
 .sightings li a h4{
 	display:block;
 	width:100%;
 	margin:0;
+	color:#444;
 	padding:5px 3px
 }
 
