@@ -5,7 +5,6 @@
 <title>KiteTracker</title>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets/style.css" rel="stylesheet">
-
 <link href='http://fonts.googleapis.com/css?family=Fjord+One|PT+Sans:400,700' rel='stylesheet' type='text/css'>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
@@ -13,16 +12,16 @@
 </script>
 </head>
 <body onload="get_location();">
-<?php include('functions.php'); $db = new Connection(); ?>
+<?php include('functions.php'); ?>
 
 	<div class="wrapper header">
 		<nav class="navbar navbar-inverse" role="navigation">
 			<form class="navbar-form navbar-right" role="search" id="changeZip">
-	      <div class="form-group">
-	        <input type="text" class="form-control"  placeholder="Enter a new zipcode">
-	      </div>
-	      <button type="submit" class="btn btn-default btn-info" id="">Submit</button>
-	    </form>
+		      <div class="form-group">
+		        <input type="text" class="form-control"  placeholder="Enter a new zipcode">
+		      </div>
+		      <button type="submit" class="btn btn-default btn-info" id="">Submit</button>
+		    </form> 
 			<ul class="nav navbar-nav  pull-right">
 				<li><a href="">About Swallow-tailed Kites</a></li>
 				<li><a href="">Recent sightings</a></li>
@@ -33,7 +32,9 @@
 	</div>
 	
 	<div class="col-lg-3 leftCol">
+		<ul class="sightings" id="sightingsPanel">
 		
+		</ul>
 	</div>
 	
 	<div class="col-lg-9 rightCol">
@@ -71,21 +72,27 @@ jQuery('#changeZip').submit(function(event){
 
 	event.preventDefault();
 	
+	jQuery('#sightingsPanel').html('');
+	
 	var zip = jQuery(this).find('input[type="text"]').val();
 	
 	geocode_zip(zip);
 	
 });
+
+
+function zip_error(){
+	jQuery('#zipForm').prepend('<div id="zipError" class="alert alert-danger"><p></p></div>');
+	jQuery('#zipError p').text('Please enter a valid Zip Code')
+}
+
+
 	
 function get_location() {
 	// GET HTML5 BROWSER COORDINATES IS AVAILABLE
 	var coordinates = navigator.geolocation.getCurrentPosition(show_map, handle_error);
 }
 
-function zip_error(){
-	jQuery('#zipForm').prepend('<div id="zipError" class="alert alert-danger"><p></p></div>');
-	jQuery('#zipError p').text('Please enter a valid Zip Code')
-}
 
 function show_map(position) {
 
@@ -95,11 +102,20 @@ function show_map(position) {
  	// GET LONGITUTDE FROM BROWSER 
  	var longitude = position.coords.longitude; 
  	
- 	// NATIVE JSON OF LAT & LONG
-	var coords = {'lat':position.coords.latitude,'long':position.coords.longitude}; 
+ 	var tRlat = latitude + 1;
+ 	var bLlat = latitude - 1;
+ 	var tRlng = longitude + 1;
+ 	var bLlng = longitude - 1;
+ 	 
+ 	// NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
+	var coords = {'lat':position.coords.latitude,'long':position.coords.longitude, 'tRlat':tRlat, 'tRlng':tRlng, 'bLlat':bLlat, 'bLlng':bLlng}; 
 	
 	// IF JSON EXISTS, INITALIZE THE MAP WITH CORRECT COORDINATES AS MAP CENTER, ELSE RUN MODAL TO GRAB ZIP CODE	
-	if(coords){  initialize(coords);  } else { manual_geolocation();  }	
+	if(coords){  
+		initialize(coords);  
+	} else { 
+		handle_error();  
+	}	
 
 }
 	
@@ -151,36 +167,40 @@ function geocode_zip(zip){
 			// BUILD BOUNDARIES OBJECT TO SEND VIA AJAX TO GRAB NEARBY SIGHTINGS
 			var topRight = results[0].geometry.viewport.getNorthEast();
 			var bottomLeft = results[0].geometry.viewport.getSouthWest();
-			var viewport = {'topRightLat':topRight.lat(),
-											'topRightLng':topRight.lng(), 
-											'bottomLeftLat': bottomLeft.lat(),
-											'bottomLeftLng':bottomLeft.lng()};
-											
-			var serializedViewport = jQuery.param(viewport); 							
-		
+													
 			// DEFINE COORDINATES OBJECT WITH LAT AND LONG 
-			var coords = {"lat":results[0].geometry.location.lat(),"long":results[0].geometry.location.lng()}; 
+			var coords = {'lat':results[0].geometry.location.lat(),
+						  'long':results[0].geometry.location.lng(), 
+						  'tRlat':topRight.lat(),
+						  'tRlng':topRight.lng(), 
+						  'bLlat': bottomLeft.lat(),
+						  'bLlng':bottomLeft.lng()}; 
+						  
 			// HIDE MODAL BEFORE INITIALIZING NEW MAP
 			jQuery('#zipcode').modal('hide');
 		} else {
 			// IF NO COORDINATES OR ERROR IN GEOCODING, SET MAP OBJECT TO EQUATOR
-			var coords = {"lat":"0","long":"0"}
-			var viewport = {'topRightLat':'0',
-											'topRightLng':'0', 
-											'bottomLeftLat':'0',
-											'bottomLeftLng':'0'};
+			var coords = {'lat':0,
+						  'long':0,
+						  'topRightLat':0,
+						  'topRightLng':0, 
+						  'bottomLeftLat':0,
+						  'bottomLeftLng':0};
 		}
 		// INITALIZE THE MAP WITH ZIP CODE COORDINATES
-		initialize(coords, serializedViewport);
+		initialize(coords);
 		
 	});
 } 
 
 
      
-  function initialize(coords, serializedViewport) { 
-     
-  var height = jQuery(window).height();
+function initialize(coords) { 
+   	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
+    var serializedCoords = jQuery.param(coords); 
+  	
+  	// DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
+  	var height = jQuery(window).height();
 	var nav = jQuery('.header nav').height();
 	var trueHeight = height - nav; 
 	var mapBox = jQuery('#map-canvas');
@@ -196,63 +216,63 @@ function geocode_zip(zip){
        zoom: 10,
        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    
-    
-    var markser = setMarkers(map);
-    
+        
     // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
-    var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions, markser);
+    var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
     
- 
-    jQuery.get({
+    // WITH JSON PARAMS, CALL FOR SIGHTINGS WITHIN THE VIEWPORT DEFINED BY BROWSER LOCATION OR ZIP CODE 
+    jQuery.ajax({
 	    url: "findSightings.php",
-	    data: serializedViewport,
 	    dataType:'json',
-			success: function(data){
-				
-				alert('Hello');
-				
-			}
-	    
-    });
-    	
-	} // END INITALIZE FUNCTION
-	
-	
-	function setMarkers(map) {
-	
-		 var beaches = [
-			['Bondi Beach', -33.890542, 151.274856, 4],
-			['Coogee Beach', -33.923036, 151.259052, 5],
-			['Cronulla Beach', -34.028249, 151.157507, 3],
-			['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-			['Maroubra Beach', -33.950198, 151.259302, 1]
-		];
-		
-		var image = {
-		  url: 'images/beachflag.png',
-		  size: new google.maps.Size(20, 32),
-		  origin: new google.maps.Point(0,0),
-		  anchor: new google.maps.Point(0, 32)
-		};
-		
-		var shape = {
-		    coord: [1, 1, 1, 20, 18, 20, 18 , 1],
-		    type: 'poly'
-		};
-		  
-		for (var i = 0; i < beaches.length; i++) {
-		  var beach = beaches[i];
-		  var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
-		  var marker = new google.maps.Marker({
-		      position: myLatLng,
-		      map: map,
-		      icon: image,
-		      shape: shape,
-		      title: beach[0],
-		      zIndex: beach[3]
-		  });
+	    data: serializedCoords,
+		success: function(data){
+			// IF DATA IS RETURNED, BEGIN PARSING IT AND ADDING MARKERS TO THE MAP
+			if(data){ 		
+				build_sightings_list(map, data);
+			}	
 		}
+    });
+} // END INITALIZE FUNCTION
+	
+	
+function add_map_markers(map, id, year, species_id, lat, lng) {
+
+	var contentString = '<div class="google-info-window">'+'<h3>'+ species_id +'</h3>'+'<div class="info-window-content">'+
+	  '<h5>'+id+'</h5> '+'<p>(Data recorded in '+year+').</p>'+'</div>'+'</div>';
+	
+	var marker = new google.maps.Marker({
+	   position: new google.maps.LatLng(lat, lng),
+	   map: map
+	});	
+	     
+	var infowindow = new google.maps.InfoWindow({
+	  content: contentString
+	});
+	// ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFOWINDOW
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.open(map,marker);
+	});
+}
+
+function build_sightings_list(map,data){
+			
+    for ( var i = 0; i < data.length; i++) {
+    
+    	var sightingsHTML = '<li><a href="" ><h4>'+data[i].species_id+'</h4></a></li>';
+    	
+    	jQuery('#sightingsPanel').append(sightingsHTML);
+    	
+    	var id = data[i].Id;
+    	var year = data[i].year;
+    	var species_id = data[i].species_id;
+    	var lat = data[i].lat;
+    	var lng = data[i].long;
+		
+		
+		add_map_markers(map, id, year, species_id, lat, lng);
+				
+	}	
+	
 }
 
 				

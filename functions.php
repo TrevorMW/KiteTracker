@@ -15,6 +15,9 @@ class Connection {
 			$hosts .= 'dbname='.DB_NAME.'';
 		
       $db = new PDO($hosts, DB_USER, DB_PASS);
+      
+      return $db;
+      
              
     } catch(PDOException $e){  
         
