@@ -102,10 +102,10 @@ function show_map(position) {
  	// GET LONGITUTDE FROM BROWSER 
  	var longitude = position.coords.longitude; 
  	
- 	var tRlat = latitude + 1;
- 	var bLlat = latitude - 1;
- 	var tRlng = longitude + 1;
- 	var bLlng = longitude - 1;
+ 	var tRlat = latitude + 1.25;
+ 	var bLlat = latitude - 1.25;
+ 	var tRlng = longitude + 1.25;
+ 	var bLlng = longitude - 1.25;
  	 
  	// NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
 	var coords = {'lat':position.coords.latitude,'long':position.coords.longitude, 'tRlat':tRlat, 'tRlng':tRlng, 'bLlat':bLlat, 'bLlng':bLlng}; 
@@ -233,16 +233,21 @@ function initialize(coords) {
 		}
     });
 } // END INITALIZE FUNCTION
+
+google.maps.event.addDomListener(window, 'load', initialize);
 	
 	
 function add_map_markers(map, id, year, species_id, lat, lng) {
+
+	console.log(lat, lng);
 
 	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ species_id +'</h3>'+'<div class="info-window-content">'+
 	  '<h5>'+id+'</h5> '+'<p>(Data recorded in '+year+').</p>'+'</div>'+'</div>';
 	
 	var marker = new google.maps.Marker({
 	   position: new google.maps.LatLng(lat, lng),
-	   map: map
+	   map: map,
+	   animation:google.maps.Animation.DROP
 	});	
 	     
 	var infowindow = new google.maps.InfoWindow({
@@ -255,18 +260,12 @@ function add_map_markers(map, id, year, species_id, lat, lng) {
 	});	
 }
 
-function open_info_window(id){
-	
-	infowindow.open(map,marker);
-	
-}
-
 
 function build_sightings_list(map,data){ 
-			
+				
     for ( var i = 0; i < data.length; i++) {
     
-    	var sightingsHTML = '<li><a href="#" onclick="open_info_window('+data[i].Id+');" id="'+data[i].Id+'"><h4>'+data[i].species_id+'</h4></a></li>';
+    	var sightingsHTML = '<li><a href="#" onclick="" id="'+data[i].Id+'"><h4>'+data[i].species_id+'</h4></a></li>';
     	
     	jQuery('#sightingsPanel').append(sightingsHTML);
     	
@@ -274,16 +273,13 @@ function build_sightings_list(map,data){
     	var year = data[i].year;
     	var species_id = data[i].species_id;
     	var lat = data[i].lat;
-    	var lng = data[i].long;
+    	var lng = data[i].lng;
 		
 		add_map_markers(map, id, year, species_id, lat, lng);
-				
 	}	
-	
 }
 
-				
-  //google.maps.event.addDomListener(window, 'load', initialize);
+
       
 	</script>
 
