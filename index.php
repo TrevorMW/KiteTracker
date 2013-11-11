@@ -182,10 +182,10 @@ function geocode_zip(zip){
 			// IF NO COORDINATES OR ERROR IN GEOCODING, SET MAP OBJECT TO EQUATOR
 			var coords = {'lat':0,
 						  'long':0,
-						  'topRightLat':0,
-						  'topRightLng':0, 
-						  'bottomLeftLat':0,
-						  'bottomLeftLng':0};
+						  'topRightLat':40,
+						  'topRightLng':-78, 
+						  'bottomLeftLat':30,
+						  'bottomLeftLng':-87};
 		}
 		// INITALIZE THE MAP WITH ZIP CODE COORDINATES
 		initialize(coords);
@@ -193,8 +193,6 @@ function geocode_zip(zip){
 	});
 } 
 
-
-     
 function initialize(coords) { 
    	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
     var serializedCoords = jQuery.param(coords); console.log(serializedCoords);
@@ -236,52 +234,44 @@ function initialize(coords) {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 	
-	
 function add_map_markers(map, id, year, species_id, lat, lng) {
-
-	console.log(lat, lng);
-
+	// BUILD MARKUP FOR EACH MARKER INFOWINDOW
 	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ species_id +'</h3>'+'<div class="info-window-content">'+
 	  '<h5>'+id+'</h5> '+'<p>(Data recorded in '+year+').</p>'+'</div>'+'</div>';
-	
+	// DEFINE MARKER CHARACTERISTICS
 	var marker = new google.maps.Marker({
 	   position: new google.maps.LatLng(lat, lng),
 	   map: map,
 	   animation:google.maps.Animation.DROP
 	});	
-	     
+	// DEFINE INFO WINDOW PARAMETERS     
 	var infowindow = new google.maps.InfoWindow({
 	  content: contentString
 	});
-	
 	// ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFO WINDOW
 	google.maps.event.addListener(marker, 'click', function() {
 		infowindow.open(map,marker);
 	});	
 }
 
-
 function build_sightings_list(map,data){ 
-				
+	// LOOP THROUGH DATA TO BUILD SIDEBAR LIST			
     for ( var i = 0; i < data.length; i++) {
-    
+    	// BUILD LI LIST
     	var sightingsHTML = '<li><a href="#" onclick="" id="'+data[i].Id+'"><h4>'+data[i].species_id+'</h4></a></li>';
-    	
+    	// APPEND LIST TO UL CONTAINER
     	jQuery('#sightingsPanel').append(sightingsHTML);
-    	
+    	// DEFINE VARIABLES NECESSARY TO BUILD MARKERS
     	var id = data[i].Id;
     	var year = data[i].year;
     	var species_id = data[i].species_id;
     	var lat = data[i].lat;
     	var lng = data[i].lng;
-		
+		// SEND APPROPRIATE DATA TO BUILD MAP MARKERS
 		add_map_markers(map, id, year, species_id, lat, lng);
 	}	
 }
-
-
-      
-	</script>
+</script>
 
 </body>
 </html>
