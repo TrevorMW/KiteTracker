@@ -16,7 +16,7 @@ class Connection {
 		
 			$db = new PDO($hosts, DB_USER, DB_PASS);
       
-			return $db;
+			return $db; var_dump($db);
       	
              
     } catch(PDOException $e){  

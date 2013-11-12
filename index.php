@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>KiteTracker</title>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-<link href="assets/style.css" rel="stylesheet">
-<link href='http://fonts.googleapis.com/css?family=Fjord+One|PT+Sans:400,700' rel='stylesheet' type='text/css'>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAurG7BXBQXqdyRebvS68YZ8-GkfFp3WDE&amp;sensor=true">
-</script>
-</head>
+<?php include('assets/inc/header.php');?>
 <body onload="get_location();">
 <?php include('functions.php'); ?>
 
@@ -29,9 +17,10 @@
 			</ul>
 			<a class="navbar-brand" href="#">KiteTracker</a>
 		</nav>
+		
 	</div>
 	
-	<div class="col-lg-3 leftCol">
+	<div class="col-lg-3 leftCol"><div class="alert" id="resultsMsg"></div>
 		<ul class="sightings" id="sightingsPanel">
 		
 		</ul>
@@ -102,10 +91,10 @@ function show_map(position) {
  	// GET LONGITUTDE FROM BROWSER 
  	var longitude = position.coords.longitude; 
  	
- 	var tRlat = latitude + 1.25;
- 	var bLlat = latitude - 1.25;
- 	var tRlng = longitude + 1.25;
- 	var bLlng = longitude - 1.25;
+ 	var tRlat = latitude + 0.25;
+ 	var bLlat = latitude - 0.25;
+ 	var tRlng = longitude + 0.25;
+ 	var bLlng = longitude - 0.25;
  	 
  	// NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
 	var coords = {'lat':position.coords.latitude,'long':position.coords.longitude, 'tRlat':tRlat, 'tRlng':tRlng, 'bLlat':bLlat, 'bLlng':bLlng}; 
@@ -165,16 +154,18 @@ function geocode_zip(zip){
 		if (status == google.maps.GeocoderStatus.OK) {   
 			
 			// BUILD BOUNDARIES OBJECT TO SEND VIA AJAX TO GRAB NEARBY SIGHTINGS
-			var topRight = results[0].geometry.viewport.getNorthEast();
+			var topRight = results[0].geometry.viewport.getNorthEast(); 
 			var bottomLeft = results[0].geometry.viewport.getSouthWest();
+			
+			console.log(results[0].geometry.viewport);							
 													
 			// DEFINE COORDINATES OBJECT WITH LAT AND LONG 
 			var coords = {'lat':results[0].geometry.location.lat(),
 						  'long':results[0].geometry.location.lng(), 
-						  'tRlat':topRight.lat(),
-						  'tRlng':topRight.lng(), 
-						  'bLlat': bottomLeft.lat(),
-						  'bLlng':bottomLeft.lng()}; 
+						  'tRlat':topRight.lat() + .25,
+						  'tRlng':topRight.lng()+ .25, 
+						  'bLlat':bottomLeft.lat()- .25,
+						  'bLlng':bottomLeft.lng()-  .25}
 						  
 			// HIDE MODAL BEFORE INITIALIZING NEW MAP
 			jQuery('#zipcode').modal('hide');
@@ -195,18 +186,15 @@ function geocode_zip(zip){
 
 function initialize(coords) { 
    	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
-    var serializedCoords = jQuery.param(coords); console.log(serializedCoords);
-  	
+    var serializedCoords = jQuery.param(coords); 
+      	
   	// DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
-  	var height = jQuery(window).height();
-	var nav = jQuery('.header nav').height();
-	var trueHeight = height - nav; 
+	var trueHeight = jQuery(window).height() - jQuery('.header nav').height(); 
 	var mapBox = jQuery('#map-canvas');
 	var leftCol = jQuery('.leftCol');
 	
 	// ADD HEIGHT OF PAGE TO MAP			 
 	mapBox.css('height', trueHeight);
-	leftCol.css('height', trueHeight);
     
     // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD      
     var mapOptions = {
@@ -214,18 +202,47 @@ function initialize(coords) {
        zoom: 10,
        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-        
+    
+	var bLlng = coords.bLlng - 0.20;
+	var bLlat = coords.bLlat - 0.20;
+	var tRlat = coords.tRlat + 0.20;
+	var tRlng = coords.tRlng + 0.20;
+	
+
+	var flightPlanCoordinates = [
+		new google.maps.LatLng(tRlat,bLlng),
+		new google.maps.LatLng(tRlat,tRlng),
+		new google.maps.LatLng(bLlat,tRlng),
+		new google.maps.LatLng(bLlat,bLlng),
+		new google.maps.LatLng(tRlat,bLlng)
+	];
+	
+	console.log(flightPlanCoordinates);
+	
+	var flightPath = new google.maps.Polyline({
+		path: flightPlanCoordinates,
+		geodesic: true,
+		strokeColor: '#ddd',
+		strokeOpacity: 1.0,
+		strokeWeight: 2,
+		fillColor: '#FF0000',
+		fillOpacity: 0.35,
+	});
+	        
     // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
     var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
     
+    flightPath.setMap(map);	
+    
     // WITH JSON PARAMS, CALL FOR SIGHTINGS WITHIN THE VIEWPORT DEFINED BY BROWSER LOCATION OR ZIP CODE 
     jQuery.ajax({
-	    url: "findSightings.php",
+	    url: "assets/scripts/findSightings.php",
 	    dataType:'json',
 	    data: serializedCoords,
 		success: function(data){
 			// IF DATA IS RETURNED, BEGIN PARSING IT AND ADDING MARKERS TO THE MAP
 			if(data){ 		
+				jQuery('#resultsMsg').append('<p>We found '+data.length+' sightings in your area.</p>').addClass('alert-success').slideDown();
 				build_sightings_list(map, data);
 			}	
 		}
@@ -250,8 +267,12 @@ function add_map_markers(map, id, year, species_id, lat, lng) {
 	});
 	// ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFO WINDOW
 	google.maps.event.addListener(marker, 'click', function() {
+	
+		jQuery('li a#' + id).
+		
 		infowindow.open(map,marker);
-	});	
+	});
+		
 }
 
 function build_sightings_list(map,data){ 
@@ -269,6 +290,7 @@ function build_sightings_list(map,data){
     	var lng = data[i].lng;
 		// SEND APPROPRIATE DATA TO BUILD MAP MARKERS
 		add_map_markers(map, id, year, species_id, lat, lng);
+	
 	}	
 }
 </script>

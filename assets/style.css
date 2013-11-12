@@ -1,6 +1,6 @@
 
 body{
-	
+	overflow:hidden;
 	background-color: #ddd;
 }
 
@@ -24,7 +24,7 @@ body{
 
 .leftCol{
 	overflow-y:scroll;
-	
+	padding:0;
 }
 
 .rightCol{
@@ -36,6 +36,24 @@ body{
 	margin-top:0;
 	text-align:center;
 }
+.alert.alert-success{
+	margin:0;
+	padding:0;
+	display:block; 
+	}
+
+#resultsMsg {
+	display:none;
+	width:100%;
+	text-align:center;
+	margin:0;
+	float:none;
+	border-radius:0;
+	clear:both;	
+	border-bottom:1px solid green;
+	padding:5px 0;
+}
+
 #zipcode .modal-body{
 	padding:10px 20px;
 	background-color:#eeeeee;
@@ -46,4 +64,36 @@ body{
 }
 #changeZip input[type"text"]{
 	border:1px solid #4d9bd3;
+}
+
+.sightings{
+	display:block;
+	width:100%;
+	padding: 0;
+	margin:0
+}
+.sightings li{
+	list-style:none;
+	margin:0;	
+	padding:0; 
+	background:#444;
+	border-bottom:1px solid #444;
+}
+
+.sightings li a,
+.sightings li a:visited{
+	display:block;
+	background:#ddd;
+	width:100%;
+}
+.sightings li a h4{
+	display:block;
+	width:100%;
+	margin:0;
+	color:#444;
+	padding:5px 3px
+}
+
+.sightings li a:hover{
+	background:#000;
 }
