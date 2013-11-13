@@ -41,6 +41,11 @@ body{
 	padding:0;
 	display:block; 
 	}
+	
+li.active{
+	color:blue;
+	background-color:#bbb;
+}	
 
 #resultsMsg {
 	display:none;

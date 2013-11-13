@@ -1,3 +1,9 @@
+<?php 
+$permalink = basename($_SERVER['REQUEST_URI']); 
+$permalink = str_replace('.php','',$permalink);
+if($permalink == 'recentSightings'){
+	$bodyLoad = 'onLoad="get_location();"';
+} else if($permalink == 'reportSighting'){ } else {}; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,3 +17,20 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAurG7BXBQXqdyRebvS68YZ8-GkfFp3WDE&amp;sensor=true">
 </script>
 </head>
+<body <?php echo $bodyLoad;?>>
+<div class="wrapper header">
+		<nav class="navbar navbar-inverse" role="navigation">
+			<form class="navbar-form navbar-right" role="search" id="changeZip">
+		      <div class="form-group">
+		        <input type="text" class="form-control"  placeholder="Enter a new zipcode">
+		      </div>
+		      <button type="submit" class="btn btn-default btn-info" id="">Submit</button>
+		    </form> 
+			<ul class="nav navbar-nav  pull-right">
+				<li><a href="/KiteTracker/">About Swallow-tailed Kites</a></li>
+				<li><a href="/KiteTracker/recentSightings.php">Recent sightings</a></li>
+				<li><a href="/KiteTracker/reportSightings.php">Report a sighting</a></li>
+			</ul>
+			<a class="navbar-brand" href="#">KiteTracker</a>
+		</nav>
+	</div>
