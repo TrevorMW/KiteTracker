@@ -43,8 +43,21 @@ jQuery('#changeZip').submit(function(event){
 	// GRAB NEW ZIP CODE
 	var zip = jQuery(this).find('input[type="text"]').val();
 	// PASS NEW ZIP CODE THROUGH GEOCODER > INITIALIZE > BUILD_SIGHTINGS
-	geocode_zip(zip);
+    if(zip != null){
+        geocode_zip(zip);
+    } else {
+
+    };
+
 });
+
+
+jQuery('#zipChange').popover({
+    'html':true,
+    'placement':'bottom'
+});
+
+jQuery('#zipChange .popover').css('left','0').css('right','0');
 
 // THROW ERROR IF ZIP ENTERED IS NOT VALID
 function zip_error(){
