@@ -29,7 +29,7 @@ if($permalink == 'recentSightings'){
 			<ul class="nav navbar-nav  pull-right">
 				<li><a href="/KiteTracker/">About Swallow-tailed Kites</a></li>
 				<li><a href="/KiteTracker/recentSightings.php">Recent sightings</a></li>
-				<li><a href="/KiteTracker/reportSightings.php">Report a sighting</a></li>
+				<li><a href="/KiteTracker/reportSighting.php">Report a sighting</a></li>
 			</ul>
 			<a class="navbar-brand" href="#">KiteTracker</a>
 		</nav>

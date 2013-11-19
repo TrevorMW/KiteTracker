@@ -41,4 +41,21 @@ class Connection {
 }
 
 
+function get_day_number($currentMonth){
+    $currentMonth = strtolower($currentMonth);
+    switch ($currentMonth){
+
+        case 'september': $output = '30'; break;
+        case 'april': $output = '30'; break;
+        case 'june': $output = '30'; break;
+        case 'november': $output = '30'; break;
+        case 'february': $output = '28'; break;
+        default: $output = '31';
+    }
+
+     return $output;
+
+}
+
+
 ?>

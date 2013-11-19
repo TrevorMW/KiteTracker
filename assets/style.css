@@ -103,3 +103,56 @@ li.active{
 .sightings li a:hover{
 	background:#000;
 }
+
+.panel-body{margin-bottom:0}
+
+.panel-footer{
+    padding:15px
+}
+.btn-group{
+    border:1px solid transparent;
+    float:none;
+
+}
+
+
+
+
+form {
+}
+
+form ul{
+    padding-left:0
+}
+
+form ul li{
+    list-style:none;
+    margin:5px 0 0 0;
+}
+
+form ul li.half label,
+form ul li.half select{
+    display:inline-block;
+    vertical-align:top;
+    width:68%;
+    text-align:right;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+}
+form ul li.half label{
+    text-align:right;
+    padding-right:10px;
+    width:30%;
+}
+
+form ul li input[type="submit"]{
+   margin:5px 0 0 0;
+}
+
+form fieldset,
+form fieldset label,
+form fieldset input{
+    display:block;
+    width:100%;
+}

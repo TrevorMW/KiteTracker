@@ -47,17 +47,11 @@ jQuery('#changeZip').submit(function(event){
         geocode_zip(zip);
     } else {
 
-    };
+    }
 
 });
 
 
-jQuery('#zipChange').popover({
-    'html':true,
-    'placement':'bottom'
-});
-
-jQuery('#zipChange .popover').css('left','0').css('right','0');
 
 // THROW ERROR IF ZIP ENTERED IS NOT VALID
 function zip_error(){
