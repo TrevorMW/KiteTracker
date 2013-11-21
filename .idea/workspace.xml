@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18c2e21e-1a01-44fe-a430-ccfb5486f474" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/inc/header.php" afterPath="$PROJECT_DIR$/assets/inc/header.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/style.css" afterPath="$PROJECT_DIR$/assets/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/functions.php" afterPath="$PROJECT_DIR$/functions.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recentSightings.php" afterPath="$PROJECT_DIR$/recentSightings.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reportSighting.php" afterPath="$PROJECT_DIR$/reportSighting.php" />
     </list>
@@ -44,7 +41,7 @@
       <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="117" column="0" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.0">
+            <state line="149" column="15" selection-start="1796" selection-end="1796" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -62,7 +59,7 @@
       <file leaf-file-name="recentSightings.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/recentSightings.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="268" column="42" selection-start="8978" selection-end="8978" vertical-scroll-proportion="3.84">
+            <state line="246" column="3" selection-start="7982" selection-end="7982" vertical-scroll-proportion="-11.56">
               <folding />
             </state>
           </provider>
@@ -71,11 +68,14 @@
       <file leaf-file-name="reportSighting.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/reportSighting.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="137" column="47" selection-start="3953" selection-end="3953" vertical-scroll-proportion="0.21368948">
+            <state line="104" column="10" selection-start="4004" selection-end="4010" vertical-scroll-proportion="0.29382303">
               <folding>
-                <element signature="tag#fieldset#0;tag#form#0;tag#div#0;tag#div#0" expanded="false" />
-                <element signature="tag#form#1;tag#div#0;tag#div#0" expanded="false" />
-                <marker date="1384830409000" expanded="true" signature="3170:3214" placeholder="..." />
+                <element signature="e#191#214#0" expanded="true" />
+                <element signature="e#2201#2222#0" expanded="true" />
+                <element signature="e#3884#3905#0" expanded="true" />
+                <element signature="e#4292#4346#0" expanded="true" />
+                <element signature="e#12152#12194#0" expanded="true" />
+                <element signature="e#12501#12522#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,13 +91,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/reportSighting.php" root0="SKIP_INSPECTION" root1="SKIP_INSPECTION" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/recentSightings.php" />
         <option value="$PROJECT_DIR$/assets/inc/header.php" />
         <option value="$PROJECT_DIR$/functions.php" />
         <option value="$PROJECT_DIR$/assets/style.css" />
+        <option value="$PROJECT_DIR$/recentSightings.php" />
         <option value="$PROJECT_DIR$/reportSighting.php" />
       </list>
     </option>
@@ -367,9 +370,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="124" column="0" selection-start="3531" selection-end="3531" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="tag#fieldset#0;tag#form#0;tag#div#0;tag#div#0" expanded="false" />
-            <element signature="tag#form#1;tag#div#0;tag#div#0" expanded="false" />
-            <marker date="1384830409000" expanded="true" signature="3170:3214" placeholder="..." />
+            <element signature="e#191#214#0" expanded="true" />
+            <element signature="e#2201#2222#0" expanded="true" />
+            <element signature="e#3884#3905#0" expanded="true" />
+            <element signature="e#4292#4346#0" expanded="true" />
+            <element signature="e#12152#12194#0" expanded="true" />
+            <element signature="e#12501#12522#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -437,13 +443,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/recentSightings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="268" column="42" selection-start="8978" selection-end="8978" vertical-scroll-proportion="3.84">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/functions.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="9" selection-start="595" selection-end="610" vertical-scroll-proportion="-1.04">
@@ -453,18 +452,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="0" selection-start="1357" selection-end="1357" vertical-scroll-proportion="0.0">
+        <state line="149" column="15" selection-start="1796" selection-end="1796" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/recentSightings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="246" column="3" selection-start="7982" selection-end="7982" vertical-scroll-proportion="-11.56">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/reportSighting.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="137" column="47" selection-start="3953" selection-end="3953" vertical-scroll-proportion="0.21368948">
+        <state line="104" column="10" selection-start="4004" selection-end="4010" vertical-scroll-proportion="0.29382303">
           <folding>
-            <element signature="tag#fieldset#0;tag#form#0;tag#div#0;tag#div#0" expanded="false" />
-            <element signature="tag#form#1;tag#div#0;tag#div#0" expanded="false" />
-            <marker date="1384830409000" expanded="true" signature="3170:3214" placeholder="..." />
+            <element signature="e#191#214#0" expanded="true" />
+            <element signature="e#2201#2222#0" expanded="true" />
+            <element signature="e#3884#3905#0" expanded="true" />
+            <element signature="e#4292#4346#0" expanded="true" />
+            <element signature="e#12152#12194#0" expanded="true" />
+            <element signature="e#12501#12522#0" expanded="true" />
           </folding>
         </state>
       </provider>
