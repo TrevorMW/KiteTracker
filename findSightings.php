@@ -21,14 +21,14 @@ try {
     echo $e->getMessage(); 
 }  //
 
-$q = "SELECT * FROM `kt_sightings` WHERE `lat` < '".$tRlat."' AND `lat` > '".$bLlat."'AND `lng` < '".$tRlng."' AND `lng` > '".$bLlng."'"; 
- 
-$query = $db->query($q);
+$q = "SELECT * FROM `kt_fullSightings` WHERE `LATITUDE` < '".$tRlat."' AND `LATITUDE` > '".$bLlat."'AND `LONGITUDE` < '".$tRlng."' AND `LONGITUDE` > '".$bLlng."'";
+ //var_dump($q);
+/*$query = $db->query($q);
   
-if($query){ 
+if($query){
 	foreach($query as $q){ 
 		$returnData[] = $q;
 	}
-	$returnData = json_encode($returnData);
-	echo $returnData;
+	$returnData = json_encode($returnData); */
+	echo $q;
 } ?>

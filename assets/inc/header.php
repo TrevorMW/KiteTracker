@@ -24,7 +24,7 @@ if($permalink == 'recentSightings'){
 		      <div class="form-group">
 		        <input type="text" class="form-control"  placeholder="Enter a new zipcode">
 		      </div>
-		      <button type="submit" class="btn btn-default btn-primary" id="">Submit</button>
+		      <button type="submit" class="btn btn-default btn-primary">Submit</button>
 		    </form>
 			<ul class="nav navbar-nav  pull-right">
 				<li><a href="/KiteTracker/">About Swallow-tailed Kites</a></li>

@@ -21,7 +21,7 @@ try {
     echo $e->getMessage(); 
 }  //
 
-$q = "SELECT * FROM `kt_sightings` WHERE `lat` < '".$tRlat."' AND `lat` > '".$bLlat."'AND `lng` < '".$tRlng."' AND `lng` > '".$bLlng."'"; 
+$q = "SELECT * FROM `kt_fullSightings` WHERE `latitude` < '".$tRlat."' AND `latitude` > '".$bLlat."'AND `longitude` < '".$tRlng."' AND `longitude` > '".$bLlng."'";
  
 $query = $db->query($q);
   

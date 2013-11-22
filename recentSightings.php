@@ -181,7 +181,7 @@ function initialize(coords) {
 
    	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
     var serializedCoords = jQuery.param(coords);
-
+    http://open.spotify.com/track/1HlOGL1p6wlpOZatJ2NwFk
   	// DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
 	var trueHeight = jQuery(window).height() - jQuery('.header nav').height();
 	var mapBox = jQuery('#map-canvas');
@@ -193,32 +193,14 @@ function initialize(coords) {
     // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD
     var mapOptions = {
        center: new google.maps.LatLng(coords.lat, coords.long),
-       zoom: 10,
+       zoom: 12,
        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
-	var bLlng = coords.bLlng - 0.20;
-	var bLlat = coords.bLlat - 0.20;
-	var tRlat = coords.tRlat + 0.20;
-	var tRlng = coords.tRlng + 0.20;
-
-	/* var flightPlanCoordinates = [
-		new google.maps.LatLng(tRlat,bLlng),
-		new google.maps.LatLng(tRlat,tRlng),
-		new google.maps.LatLng(bLlat,tRlng),
-		new google.maps.LatLng(bLlat,bLlng),
-		new google.maps.LatLng(tRlat,bLlng)
-	];
-
-	var flightPath = new google.maps.Polyline({
-		path: flightPlanCoordinates,
-		geodesic: true,
-		strokeColor: '#ddd',
-		strokeOpacity: 1.0,
-		strokeWeight: 2,
-		fillColor: '#FF0000',
-		fillOpacity: 0.35,
-	});  IF BOUNDS AREA NEEDS TO BE PHYSICALLY SEEN, FUNCTION CAN DRAW RECTANGLE FROM POINTS */
+	var bLlng = coords.bLlng - 0.10;
+	var bLlat = coords.bLlat - 0.10;
+	var tRlat = coords.tRlat + 0.10;
+	var tRlng = coords.tRlng + 0.10;
 
     // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
     var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
@@ -247,16 +229,15 @@ jQuery.ajax({
 });
 
 }
-function add_map_markers(map, id, year, species_id, lat, lng) {
+function add_map_markers(map, sightingObject) {
+    var sightingObject;
 
-    var linkId = id;
 	// BUILD MARKUP FOR EACH MARKER INFOWINDOW
-	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ species_id +'</h3>'+'<div class="info-window-content">'+
-	  '<h5>'+id+'</h5> '+'<p>(Data recorded in '+year+').</p>'+'</div>'+'</div>';
+	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ sightingObject['species_name'] +'</h3>'+'<div class="info-window-content">'+
+	  '<h5>'+ sightingObject['id'] +'</h5> '+'<p>(Sighting occured in '+ sightingObject['county'] +' county).</p>'+'</div>'+'</div>';
 	// DEFINE MARKER CHARACTERISTICS
 	var marker = new google.maps.Marker({
-	   position: new google.maps.LatLng(lat, lng),
-	   id: linkId,
+	   position: new google.maps.LatLng(sightingObject['lat'], sightingObject['lng']),
 	   map: map,
 	   animation:google.maps.Animation.DROP
 	});
@@ -279,17 +260,22 @@ function add_map_markers(map, id, year, species_id, lat, lng) {
 function build_sightings_list(map,data){
 	// LOOP THROUGH DATA TO BUILD SIDEBAR LIST
     for ( var j = 0; j < data.length; j++) {
-
-        var sightingsHTML = '<li id="'+data[j].Id+'"><a href="#" onclick=""><h4>'+data[j].species_id+'</h4></a></li>';
+        //console.log(data[j]);
+        var sightingsHTML = '<li id="'+data[j].sample_event_id+'"><a href="#" onclick=""><h4>'+data[j].sample_event_id+'</h4></a></li>';
         jQuery('#sightingsPanel').append(sightingsHTML);
 
-    	var id = data[j].Id;
-    	var year = data[j].year;
-    	var species_id = data[j].species_id;
-    	var lat = data[j].lat;
-    	var lng = data[j].lng;
+        var sightingObject = {
+            "id":data[j].sample_event_id,
+            "state":data[j].state,
+            "county":data[j].county,
+            "scientific":data[j].scientific_name,
+            "taxNum":data[j].taxanomic_order_number,
+            "species_name":data[j].common_name,
+            "lat":data[j].latitude,
+            "lng":data[j].longitude
+        };
 
-        add_map_markers(map, id, year, species_id, lat, lng);
+        add_map_markers(map,sightingObject);
     }
 }
 </script>

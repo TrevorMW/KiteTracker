@@ -109,9 +109,12 @@ li.active{
 }
 
 .panel-body{
+    padding:20px 10px;
     margin-bottom:0;
     display:none;
 }
+
+
 
 .panel .panel-body{
     display:none
@@ -170,11 +173,28 @@ form ul li.half input{
     -moz-box-sizing:border-box;
     -webkit-box-sizing:border-box;
 }
+
+
 form ul li.half label{
     text-align:right;
     padding-right:10px;
     width:30%;
 }
+
+form ul li.quarter,
+form ul li.quarter label,
+form ul li.quarter input{
+    display:inline-block;
+    vertical-align: top;
+    width:49.5%;
+}
+form ul li.quarter label,
+form ul li.quarter input{
+    width:49%;
+    vertical-align: middle;
+}
+
+form ul li.quarter label{text-align:right; padding-right:10px;}
 
 form ul li input[type="submit"]{
    margin:5px 0 0 0;
@@ -185,4 +205,15 @@ form fieldset label,
 form fieldset input{
     display:block;
     width:100%;
+}
+
+ul.multi li a,
+ul.multi li a:visited{
+    display:inline-block;
+    text-decoration:none;
+    color:#444;
+}
+
+ul.multi li a:hover{
+    color:#999;
 }
