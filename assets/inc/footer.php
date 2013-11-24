@@ -1,11 +1,38 @@
+
+<div class="modal fade" id="zipcode">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add a Zip Code near your location</h4>
+            </div>
+            <div class="modal-body">
+                <form  method="post" id="zipForm" class="form-inline" role="form">
+                    <div class="form-group">
+                        <label class="sr-only" for="exampleInputEmail2">Zip Code</label>
+                        <input type="text" class="form-control" id="exampleInputEmail2" placeholder="Enter your Zip Code">
+                    </div>
+                    <button type="submit" class="btn btn-default btn-info" id="zipFormSubmit">Geocode Zip Code</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <small>In the interest of privacy, you may enter a Zip Code near your location if you wish, as an alternative to providing location data through your browser.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+
+    jQuery(document).on('click', '#advancedSearch', function(event){
+         event.preventDefault();
+        jQuery('.wrapper.form').slideToggle();
+    });
 
    // CONTROL STRUCTURE FOR LOADING UTILITIES AND RESOURCES ASSOCIATED WITH PAGES THAT REQUIRE A GOOGLE MAP
    // THE STRUCTURE CHECKS FOR HTML5 LOCAL STORAGE CAPABILITY AND HTML5 GEOLOCATION CAPABILITY.
    // IT ALSO PROVIDES FALLBACKS IN CASE EACH OF THESE ARE NOT AVAILABLE TO THE USER
 
    function page_load_checks(){
-       //alert('Running Page Checks'); // CHECK TO SEE IF SET TIMEOUT IS WORKING CORRECTLY
        // IS LOCAL STORAGE SUPPORTED?
        var storage = supports_html5_storage();
        if(storage == true){
@@ -47,13 +74,16 @@
        }
    }
 
-    // SECONDARY AND TERTIARY FUNCTIONS BELOW ARE USED AS CHECKS AND UTILITIES IN CONTROL STRUCTURES ABOVE
-
-   // IF USER DENIES ACCESS TO BROWSER GEOLOCATION, ASK FOR ZIPCODE
+   // SECONDARY AND TERTIARY FUNCTIONS BELOW ARE USED AS CHECKS AND UTILITIES IN CONTROL STRUCTURES ABOVE
+   // IF USER DENIES ACCESS TO BROWSER GEOLOCATION, ASK THEM FOR ZIPCODE
    function ask_for_zip(err) {
        if (err.code == 1) {
            // IF USER DENIES ACCESS TO LOCATION, SHOW ZIP CODE MODAL
-           jQuery('#zipcode').modal('show');
+           jQuery('#zipcode').modal({
+               backdrop:'static',
+               keyboard: false,
+               show:true
+           });
            // FIND FORM
            var form = jQuery('#zipForm');
            // CAPTURE SUBMIT & PREVENT REAL POST SUBMISSION
@@ -75,15 +105,6 @@
        }
    }
 
-   /*
-
-           // IF JSON EXISTS, INITALIZE THE MAP WITH CORRECT COORDINATES AS MAP CENTER, ELSE RUN MODAL TO GRAB ZIP CODE
-           if(coords){
-               initialize(coords);
-           } else {
-               handle_error();
-           }*/
-
    // DOES THIS BROWSER SUPPORT LOCAL STORAGE (BOOLEAN RETURN VALUE)
    function supports_html5_storage() {
        try {
@@ -94,12 +115,11 @@
    }
 
    function stored_coordinates(){
-      var lat =  localStorage.getItem('latitude');
-      var lng =  localStorage.getItem('longitude');
+      var lat =  localStorage.getItem('storedLatitude');
+      var lng =  localStorage.getItem('storedLongitude');
       var JSONcoords = {"lat":lat, "lng":lng};
       return JSONcoords;
    }
-
 
     function load_map_utilities(){
         if(typeof initialize == 'function') {

@@ -9,28 +9,7 @@
 		<div id="map-canvas"></div>
 	</div>
 	
-	<div class="modal fade" id="zipcode">
-	 	<div class="modal-dialog">
-		  	<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Add a Zip Code near your location</h4>        
-				</div>
-				<div class="modal-body">
-					<form  method="post" id="zipForm" class="form-inline" role="form">
-						<div class="form-group">
-							<label class="sr-only" for="exampleInputEmail2">Zip Code</label>
-							<input type="text" class="form-control" id="exampleInputEmail2" placeholder="Enter your Zip Code">
-						</div>
-						<button type="submit" class="btn btn-default btn-info" id="zipFormSubmit">Geocode Zip Code</button>
-					</form>
-		  		</div>
-				<div class="modal-footer">
-					<small>In the interest of privacy, you may enter a Zip Code near your location if you wish, as an alternative to providing location data through your browser.</small>
-				</div>
-			</div>
-		</div>
-	</div>
+
 
 
 <script type="text/javascript">
@@ -42,17 +21,16 @@ jQuery('#changeZip').submit(function(event){
 	// CLEAR LIST OF PREVIOUS RESULTS
 	jQuery('#sightingsPanel').html('');
 	// GRAB NEW ZIP CODE
-	var zip = jQuery(this).find('input[type="text"]').val();
+	var zip = jQuery(this).find('#newZip').val();
+    var limit = jQuery(this).find('#limitSightings').val();
 	// PASS NEW ZIP CODE THROUGH GEOCODER > INITIALIZE > BUILD_SIGHTINGS
     if(zip != null){
-        geocode_zip(zip);
+        geocode_zip(zip, limit);
     } else {
 
     }
 
 });
-
-
 
 // THROW ERROR IF ZIP ENTERED IS NOT VALID
 function zip_error(){
@@ -61,10 +39,8 @@ function zip_error(){
 }
 
 
-
-
 // GEOCODE ZIP CODE THROUGH GOOGLE MAPS API
-function geocode_zip(zip){
+function geocode_zip(zip, limit){
 	// DEFINE MAP
 	var map;
 	// DEFINE GEOCODER
@@ -81,11 +57,11 @@ function geocode_zip(zip){
             var lng = results[0].geometry.location.lng();
 
             if( lat && lng && storage == true){
-                localStorage.setItem('latitude', lat);
-                localStorage.setItem('longitude', lng);
+                localStorage.setItem('storedLatitude', lat);
+                localStorage.setItem('storedLongitude', lng);
             }
 			var coordinates = {'lat':results[0].geometry.location.lat(),
-						  'lng':results[0].geometry.location.lng()}
+						       'lng':results[0].geometry.location.lng()};
 
 			// HIDE MODAL BEFORE INITIALIZING NEW MAP
 			jQuery('#zipcode').modal('hide');
@@ -100,17 +76,20 @@ function initialize(coordinates) {
 	// HIDE ANY PREVIOUS MESSAGES
 	jQuery('#resultsMsg').html('').hide();
 
-    var tRlat = coordinates.lat + 0.25;
-    var bLlat = coordinates.lat - 0.25;
-    var tRlng = coordinates.lng + 0.25;
-    var bLlng = coordinates.lng - 0.25;
+    var tRlat = new Number(coordinates.lat) + 0.25;
+    var bLlat = new Number(coordinates.lat) - 0.15;
+    var tRlng = new Number(coordinates.lng) + 0.25;
+    var bLlng = new Number(coordinates.lng) - 0.35;
 
+    console.log(coordinates.lat, coordinates.lng);
     // NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
-    var coords = {'lat':coordinates.lat,'long':coordinates.lng, 'tRlat':tRlat, 'tRlng':tRlng, 'bLlat':bLlat, 'bLlng':bLlng};
+    var coords = {"lat":coordinates.lat,"long":coordinates.lng, "tRlat":tRlat, "tRlng":tRlng, "bLlat":bLlat, "bLlng":bLlng};
 
     if(coords.lat == ''){
-        var coords = {'lat':'0','long':'0', 'tRlat':'0', 'tRlng':'0', 'bLlat':'0', 'bLlng':'0'};
+        var coords = {'lat':0,'long':0, 'tRlat':0, 'tRlng':0, 'bLlat':0, 'bLlng':0};
     }
+
+    console.log(coords);
    	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
     var serializedCoords = jQuery.param(coords);
 
@@ -122,9 +101,11 @@ function initialize(coordinates) {
 	// ADD HEIGHT OF PAGE TO MAP
 	mapBox.css('height', trueHeight);
 
+    var center = new google.maps.LatLng(coords.lat, coords.long);
+
     // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD
     var mapOptions = {
-       center: new google.maps.LatLng(coords.lat, coords.long),
+       center: center,
        zoom: 10,
        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -132,8 +113,21 @@ function initialize(coordinates) {
     // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
     var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
+    /* var populationOptions = {
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.15,
+        map: map,
+        center: center,
+        radius: 30000
+    };
+
+    var cityCircle = new google.maps.Circle(populationOptions); */
+
     //find_sightings_records(map, serializedCoords);
-    google.maps.event.addListener(map, 'idle', find_sightings_records(map, serializedCoords));
+    find_sightings_records(map, serializedCoords);
 
 } // END INITALIZE FUNCTION
 

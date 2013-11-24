@@ -14,6 +14,12 @@ body{
 	clear:both;
 }
 
+.wrapper.form{
+    background:#444;
+    border-bottom:1px solid #000;
+    box-shadow:inset 0 0 5px #222;
+}
+
 
 .header nav{
 	background-color: #000000;
