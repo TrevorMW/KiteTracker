@@ -1,8 +1,8 @@
-<?php 
-$permalink = basename($_SERVER['REQUEST_URI']); 
+<?php
+$permalink = basename($_SERVER['REQUEST_URI']);
 $permalink = str_replace('.php','',$permalink);
 if($permalink == 'recentSightings'){
-	$bodyLoad = 'onLoad="get_location();"';
+	$bodyLoad = 'onLoad=";"';
 } else if($permalink == 'reportSighting'){ } else {}; ?>
 <!DOCTYPE html>
 <html>
@@ -14,10 +14,11 @@ if($permalink == 'recentSightings'){
 <link href='http://fonts.googleapis.com/css?family=Fjord+One|PT+Sans:400,700' rel='stylesheet' type='text/css'>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="assets/scripts/cookie.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAurG7BXBQXqdyRebvS68YZ8-GkfFp3WDE&amp;sensor=true">
 </script>
 </head>
-<body <?php echo $bodyLoad;?>>
+<body onLoad="load_map_utilities();">
 <div class="wrapper header">
 		<nav class="navbar navbar-inverse" role="navigation">
 			<form class="navbar-form navbar-right" role="search" id="changeZip">

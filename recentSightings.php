@@ -36,14 +36,6 @@
 <script type="text/javascript">
 
 
-function supports_html5_storage() {
-    try {
-        return 'localStorage' in window && window['localStorage'] !== null;
-    } catch (e) {
-        return false;
-    }
-}
-
 // CHANGE ZIP CODE AFTER INITIAL RENDER OF RESULTS
 jQuery('#changeZip').submit(function(event){
 	event.preventDefault();
@@ -68,63 +60,8 @@ function zip_error(){
 	jQuery('#zipError p').text('Please enter a valid Zip Code');
 }
 
-// GET HTML5 BROWSER COORDINATES IS AVAILABLE	
-function get_location() {
-	var coordinates = navigator.geolocation.getCurrentPosition(show_map, handle_error);
-}
 
 
-
-// GET COORDINATES IF USER ALLOWS GEOLOCATION THROUGH BROWSER
-function show_map(position) {
-    // GET LATITUTDE FROM BROWSER
- 	var latitude = position.coords.latitude;
- 	// GET LONGITUDE FROM BROWSER
- 	var longitude = position.coords.longitude;
-    var storage = supports_html5_storage();
-    if(latitude && longitude && storage == true){
-        localStorage.setItem('latitude', latitude);
-        localStorage.setItem('longitude', longitude);
-    }
-    var tRlat = latitude + 0.25;
- 	var bLlat = latitude - 0.25;
- 	var tRlng = longitude + 0.25;
- 	var bLlng = longitude - 0.25;
- 	// NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
-	var coords = {'lat':position.coords.latitude,'long':position.coords.longitude, 'tRlat':tRlat, 'tRlng':tRlng, 'bLlat':bLlat, 'bLlng':bLlng};
-	// IF JSON EXISTS, INITALIZE THE MAP WITH CORRECT COORDINATES AS MAP CENTER, ELSE RUN MODAL TO GRAB ZIP CODE
-	if(coords){
-		initialize(coords);
-	} else {
-		handle_error();
-	}
-}
-
-// IF USER DENIES ACCESS TO BROWSER GEOLOCATION, ASK FOR ZIPCODE
-function handle_error(err) {
-	if (err.code == 1) {
-  	// IF USER DENIES ACCESS TO LOCATION, SHOW ZIP CODE MODAL
-	jQuery('#zipcode').modal('show');
-	// FIND FORM
-	var form = jQuery('#zipForm');
-		// CAPTURE SUBMIT & PREVENT REAL POST SUBMISSION
-		form.submit(function(event){
-			event.preventDefault();
-			// FIND VALUE IN ZIP FORM
-			var zip = form.find('input[type="text"]').val();
-			if(zip == ''){
-				// IF NO VALUE FOR ZIP CODE, THROW ERROR
-				zip_error();
-			} else {
-				// REMOVE ERROR BOX IF THERE, AND PROCEED
-				jQuery('#zipError').remove();
-				// SEND THIS ZIP TO GOOGLE GEOCODING FUNCTION
-				geocode_zip(zip);
-			}
-		return false;
-		});
-	}
-}
 
 // GEOCODE ZIP CODE THROUGH GOOGLE MAPS API
 function geocode_zip(zip){
@@ -138,50 +75,45 @@ function geocode_zip(zip){
 
 		if (status == google.maps.GeocoderStatus.OK) {
 
-			// BUILD BOUNDARIES OBJECT TO SEND VIA AJAX TO GRAB NEARBY SIGHTINGS
-			var topRight = results[0].geometry.viewport.getNorthEast();
-			var bottomLeft = results[0].geometry.viewport.getSouthWest();
+            var storage = supports_html5_storage();
 
             var lat = results[0].geometry.location.lat();
             var lng = results[0].geometry.location.lng();
-            var storage = supports_html5_storage();
+
             if( lat && lng && storage == true){
                 localStorage.setItem('latitude', lat);
                 localStorage.setItem('longitude', lng);
             }
-            // DEFINE COORDINATES OBJECT WITH LAT AND LONG
-			var coords = {'lat':results[0].geometry.location.lat(),
-						  'long':results[0].geometry.location.lng(),
-						  'tRlat':topRight.lat() + .25,
-						  'tRlng':topRight.lng()+ .25,
-						  'bLlat':bottomLeft.lat()- .25,
-						  'bLlng':bottomLeft.lng()-  .25}
+			var coordinates = {'lat':results[0].geometry.location.lat(),
+						  'lng':results[0].geometry.location.lng()}
 
 			// HIDE MODAL BEFORE INITIALIZING NEW MAP
 			jQuery('#zipcode').modal('hide');
-		} else {
-			// IF NO COORDINATES OR ERROR IN GEOCODING, SET MAP OBJECT TO EQUATOR
-			var coords = {'lat':0,
-						  'long':0,
-						  'topRightLat':40,
-						  'topRightLng':-78,
-						  'bottomLeftLat':30,
-						  'bottomLeftLng':-87};
 		}
-		// INITALIZE THE MAP WITH ZIP CODE COORDINATES
-		initialize(coords);
-
+        initialize(coordinates);
 	});
 }
 
 // INITIALIZE GOOGLE MAPS WITH APPLICABLE PARAMETERS
-function initialize(coords) {
+function initialize(coordinates) {
+
 	// HIDE ANY PREVIOUS MESSAGES
 	jQuery('#resultsMsg').html('').hide();
 
+    var tRlat = coordinates.lat + 0.25;
+    var bLlat = coordinates.lat - 0.25;
+    var tRlng = coordinates.lng + 0.25;
+    var bLlng = coordinates.lng - 0.25;
+
+    // NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
+    var coords = {'lat':coordinates.lat,'long':coordinates.lng, 'tRlat':tRlat, 'tRlng':tRlng, 'bLlat':bLlat, 'bLlng':bLlng};
+
+    if(coords.lat == ''){
+        var coords = {'lat':'0','long':'0', 'tRlat':'0', 'tRlng':'0', 'bLlat':'0', 'bLlng':'0'};
+    }
    	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
     var serializedCoords = jQuery.param(coords);
-    http://open.spotify.com/track/1HlOGL1p6wlpOZatJ2NwFk
+
   	// DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
 	var trueHeight = jQuery(window).height() - jQuery('.header nav').height();
 	var mapBox = jQuery('#map-canvas');
@@ -193,25 +125,20 @@ function initialize(coords) {
     // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD
     var mapOptions = {
        center: new google.maps.LatLng(coords.lat, coords.long),
-       zoom: 12,
+       zoom: 10,
        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-
-	var bLlng = coords.bLlng - 0.10;
-	var bLlat = coords.bLlat - 0.10;
-	var tRlat = coords.tRlat + 0.10;
-	var tRlng = coords.tRlng + 0.10;
 
     // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
     var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
-    //flightPath.setMap(map);
-
-    find_sightings_records(map, serializedCoords);
+    //find_sightings_records(map, serializedCoords);
+    google.maps.event.addListener(map, 'idle', find_sightings_records(map, serializedCoords));
 
 } // END INITALIZE FUNCTION
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
 
 function find_sightings_records(map, serializedCoords){
 // WITH JSON PARAMS, CALL FOR SIGHTINGS WITHIN THE VIEWPORT DEFINED BY BROWSER LOCATION OR ZIP CODE
@@ -242,8 +169,6 @@ function add_map_markers(map, sightingObject) {
 	   animation:google.maps.Animation.DROP
 	});
 
-
-
 	// DEFINE INFO WINDOW PARAMETERS
 	var infowindow = new google.maps.InfoWindow({
 	  content: contentString
@@ -260,7 +185,7 @@ function add_map_markers(map, sightingObject) {
 function build_sightings_list(map,data){
 	// LOOP THROUGH DATA TO BUILD SIDEBAR LIST
     for ( var j = 0; j < data.length; j++) {
-        //console.log(data[j]);
+
         var sightingsHTML = '<li id="'+data[j].sample_event_id+'"><a href="#" onclick=""><h4>'+data[j].sample_event_id+'</h4></a></li>';
         jQuery('#sightingsPanel').append(sightingsHTML);
 
@@ -275,7 +200,7 @@ function build_sightings_list(map,data){
             "lng":data[j].longitude
         };
 
-        add_map_markers(map,sightingObject);
+        add_map_markers(map, sightingObject);
     }
 }
 </script>
