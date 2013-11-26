@@ -154,7 +154,7 @@ function add_map_markers(map, sightingObject) {
     var sightingObject;
 
 	// BUILD MARKUP FOR EACH MARKER INFOWINDOW
-	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ sightingObject['species_name'] +'</h3>'+'<div class="info-window-content">'+
+	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ sightingObject['species_name'] +'</h3>'+'<div  class="info-window-content">'+
 	  '<h5>'+ sightingObject['id'] +'</h5> '+'<p>(Sighting occured in '+ sightingObject['county'] +' county).</p>'+'</div>'+'</div>';
 	// DEFINE MARKER CHARACTERISTICS
 	var marker = new google.maps.Marker({
@@ -162,25 +162,45 @@ function add_map_markers(map, sightingObject) {
 	   map: map,
 	   animation:google.maps.Animation.DROP
 	});
+    marker.set('id',sightingObject['id']);
 
 	// DEFINE INFO WINDOW PARAMETERS
-	var infowindow = new google.maps.InfoWindow({
+	var infoWindow = new google.maps.InfoWindow({
 	  content: contentString
 	});
-	// ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFO WINDOW
+
+    this.myclick=function(i) {
+        google.maps.event.trigger(gmarkers[i], 'click');
+    };
+
+    // ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFO WINDOW
 	google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(this.html);
 		// var sideLink = jQuery('li#' + id);
 		// sideLink.addClass('active').find('a').css('font-size','red');
-		infowindow.open(map, marker);
+        infoWindow.open(map, marker);
 	});
 
+
+
+    google.maps.event.addListener(infoWindow,'closeclick',function(){
+
+    });
+
 }
+
+jQuery(document).on('click', 'a.infoWindowHandler', function(){
+    var markerId = jQuery(this).closest('li').attr('id'); console.log(markerId);
+    //var infoWindowID = marker.get('id');console.log(infoWindowID);
+    //infoWindow.open(map, markerId);
+});
+
 
 function build_sightings_list(map,data){
 	// LOOP THROUGH DATA TO BUILD SIDEBAR LIST
     for ( var j = 0; j < data.length; j++) {
 
-        var sightingsHTML = '<li id="'+data[j].sample_event_id+'"><a href="#" onclick=""><h4>'+data[j].sample_event_id+'</h4></a></li>';
+        var sightingsHTML = '<li id="'+data[j].sample_event_id+'"><a href="#" onclick="myClick('+data[j].sample_event_id+');" class="infoWindowHandler"><h4>'+data[j].sample_event_id+'</h4></a></li>';
         jQuery('#sightingsPanel').append(sightingsHTML);
 
         var sightingObject = {

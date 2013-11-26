@@ -4,6 +4,14 @@ $currentMonth = date('F'); ?>
 <div class="wrapper alert alert-info" id="formMsg"></div>
 <div class="wrapper sighting-form" style="padding:15px 0;">
 <div class="col-lg-3">
+    <div id="main">
+        <h4>Upload Your Images</h4>
+        <form method="post" enctype="multipart/form-data"  action="" id="imageUpload">
+            <input type="file" name="images" id="images" />
+            <button type="submit" class="btn btn-default btn-sm pull-right">Upload Files!</button>
+        </form><br />
+        <div id="imgContainer" class="col-lg-12" style="height:200px; overflow:hidden;"></div>
+    </div><hr />
     <form id="sightingWhen" method="post" class="one" data-form-number="1">
         <fieldset class="panel panel-default open">
             <header class="panel-heading">When did this sighting occur?</header>
@@ -316,6 +324,41 @@ $currentMonth = date('F'); ?>
 </div>
 <script>
 
+    jQuery('#imageUpload').submit(function(event){ // CATCH FORM SUBMIT
+        // PREVENT DEFAULT FORM FUNCTIONALITY
+        event.preventDefault();
+        // DEFINE FORM
+        var form = jQuery(this);
+        // DISABLE BUTTON UNTIL UPLOAD IS COMPLETE TO PREVENT MULTIPLE UPLOADS
+        form.find('button').attr('disabled', 'disabled').text('Uploading...');
+        // GET FORMDATA FOR IMAGES TO SEND TO PHP SCRIPT
+        var formData = new FormData(form[0]);
+        // CALL AJAX AND POST DATA FROM FORM - RETURN VALUE IS A JSON STRING FROM IMGUR
+        jQuery.ajax({
+            url: 'assets/scripts/upload.php',
+            type: 'POST',
+            data: formData,
+            async: false,
+            success: function (imgurData) { // REGARDLESS OF WHAT IT IS, THERE WILL BE A RESPONSE
+                // PARSE RESPONSE INTO JSON FORMAT
+                var imgurData = JSON.parse(imgurData);console.log(imgurData.success);
+                if(imgurData.success == true){ // IF JSON OBJECT RETURNS TRUE, THEN IMGUR SENT THE RESPONSE
+                    // ADD VALIDATION ON UPLOAD FORM BUTTON / WILL CHANGE LATER
+                    form.find('button').removeAttr('disabled').text('Uploaded!').addClass('btn-success');
+                    // BIND IMGUR LINK TO UPLOADED IMAGE - WILL BE STORED IN DATABASE
+                    var imgLink = imgurData.data.link;
+                    // APPEND NEWLY UPLOADED IMAGE TO A SPOT IN THE CURRENT APP TO LET THE USER KNOW IT WAS GOOD
+                    jQuery('#imgContainer').append('<img src="'+imgLink+'" style="width:100%; height:100%;" alt=""/>')
+                } else { // HANDLE ANY ERRORS THROWN
+
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });it
+    });
+
     jQuery('a.infoWindow').popover({
         animation:true,
         placement:'right',
@@ -372,8 +415,8 @@ $currentMonth = date('F'); ?>
     }
 
     function initialize() {
-        var lat = localStorage.getItem('latitude');
-        var lng = localStorage.getItem('longitude');
+        var lat = localStorage.getItem('storedLatitude');
+        var lng = localStorage.getItem('storedLongitude');
         var coords = new google.maps.LatLng(lat, lng);
         jQuery('#locationLat').val(lat);
         jQuery('#locationLng').val(lng);

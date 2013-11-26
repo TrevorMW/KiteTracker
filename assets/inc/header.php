@@ -31,7 +31,7 @@ $permalink = str_replace('.php','',$permalink);
 <div class="wrapper form" style="display:none;padding:10px 0;">
     <form class="col-lg-12 form-inline" role="search" id="changeZip">
         <div class="form-group">
-            <select id="limitSightings">
+            <select id="limitSightings" class="form-control input-sm">
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="50">50</option>
