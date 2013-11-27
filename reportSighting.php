@@ -1,339 +1,85 @@
 <?php include('assets/inc/header.php');
 include('functions.php');
 $currentMonth = date('F'); ?>
-<div class="wrapper alert alert-info" id="formMsg"></div>
-<div class="wrapper sighting-form" style="padding:15px 0;">
-<div class="col-lg-3">
-    <div id="main">
-        <h4>Upload Your Images</h4>
-        <form method="post" enctype="multipart/form-data"  action="" id="imageUpload">
-            <input type="file" name="images" id="images" />
-            <button type="submit" class="btn btn-default btn-sm pull-right">Upload Files!</button>
-        </form><br />
-        <div id="imgContainer" class="col-lg-12" style="height:200px; overflow:hidden;"></div>
-    </div><hr />
-    <form id="sightingWhen" method="post" class="one" data-form-number="1">
-        <fieldset class="panel panel-default open">
-            <header class="panel-heading">When did this sighting occur?</header>
-            <ul class="panel-body">
-                <li class="half"><label>Month:</label>
-                    <select name="month">
-                        <?php for ($m = 1; $m <= 12; $m++) {
-                        $month = date("F", mktime(0, 0, 0, $m));
-                        if ($currentMonth === $month) {
-                            $selected = "selected";
-                        } else {
-                            $selected = "";
-                        };
-                        echo "<option value='$m' " . $selected . "> $month</option>";
-                    }?></select></li>
-                <li class="half"><label>Date:</label>
-                    <select name="day">
-                        <?php $currentDate = date('j');
-                        $currentMonth = get_day_number($currentMonth); for ($m = 1; $m <= $currentMonth; $m++) {
-                        if ($currentDate == $m) {
-                            $sel = "selected";
-                        } else {
-                            $sel = '';
-                        };
-                        echo "<option value='$m' " . $sel . ">$m</option>";
-                    }?></select></li>
-                <li class="half">
-                    <label>Year:</label> <?php $year = str_replace('20', '', date('Y')); $endyear = $year + 10;?>
-                    <select name="year">
-                        <?php  for ($m = $year; $m <= $endyear; $m++) {
-                        echo "<option value='20$m' >20$m</option>";
-                    }?> </select></li>
-                <li class="half"><label>Time:</label>
-                    <select name="sightingTime">
-                        <?php  for ($m = 1; $m <= 12; $m++) {
-                        echo "<option value='$m'>$m:00 am</option>";
-                    }
-                        for ($m = 1; $m <= 12; $m++) {
-                            echo "<option value='$m'>$m:00 pm</option>";
-                        }?></select></li>
-            </ul>
-            <footer class="panel-footer">
-                <div class="btn-group">
-                    <button class="save btn btn-default btn-xs" type="submit">Save</button>
-                    <button class="edit btn btn-default btn-xs" style="display:none;">Edit</button>
-                </div>
-            </footer>
-        </fieldset>
+<script type="text/javascript" src="assets/scripts/filestyle.js"> </script>
+<div class="wrapper report-sighting" style="padding:15px;">
+
+    <form id="" class="" action="" method="post">
+
+        <div class="col-lg-4"><fieldset>
+
+            <legend>Step #1:</legend>
+
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Upload Sighting Images</button>
+
+        </fieldset></div>
+
+       <div class="col-lg-4"> <fieldset>
+
+            <legend>Step #2:</legend>
+
+
+
+        </fieldset></div>
+
+
+
     </form>
-    <form id="sightingsObservation" class="two" method="post" data-form-number="3">
-        <fieldset class="panel panel-default">
-            <header class="panel-heading">Observation Details:</header>
-            <ul class="panel-body">
-                <li>
-                    <label>Number of Kites seen:</label>
-                    <select name="numberSpotted">
-                        <?php  for ($m = 1; $m <= 20; $m++) {
-                        echo "<option value='$m'>$m</option>";
-                    } ?>
-                    </select>
-                </li>
-                <li>
-                    <label>Was a <a href="#" class="tooltip" data-info="">nest</a> observed?</label>
-                    <ul class="multi">
-                        <li><input type="radio" name="nestObserved" value="0"/><span>Yes</span></li>
-                        <li><input type="radio" name="nestObserved" value="1"/><span>No</span></li>
-                    </ul>
-                </li>
-                <li>
-                    <label>Please check all that apply:</label>
-                    <ul class="multi">
-                        <li><input type="checkbox" name="vehicle" value="Soaring"/><a href="#" class="infoWindow"
-                                                                                      data-toggle="popover"
-                                                                                      title="Soaring!"
-                                                                                      data-content="This bird is Soaring"><label>Soaring</label></a>
-                        </li>
-                        <li><input type="checkbox" name="vehicle" value="Perching"/><a href="#" class="infoWindow"
-                                                                                       data-toggle="popover"
-                                                                                       title="Perching"
-                                                                                       data-content="This bird is perching"><label>Perching</label></a>
-                        </li>
-                        <li><input type="checkbox" name="vehicle" value="Carry Nest Materials"/><span><a href="#"
-                                                                                                         class="tooltip"
-                                                                                                         data-info="">Carrying
-                            Nest Materials (sticks, Spanish Moss)</a></span></li>
-                        <li><input type="checkbox" name="vehicle" value="Vocalizing"/><span><a href="#" class="tooltip"
-                                                                                               data-info="">Vocalizing</a></span>
-                        </li>
-                        <li><input type="checkbox" name="vehicle" value="Flapping"/><span><a href="#" class="tooltip"
-                                                                                             data-info="">Flapping</a></span>
-                        </li>
-                        <li><input type="checkbox" name="vehicle" value="Foraging over open Habitat"/><span><a href="#"
-                                                                                                               class="tooltip"
-                                                                                                               data-info="">Foraging
-                            over open habitat (please describe in comments)</a></span></li>
-                        <li><input type="checkbox" name="vehicle" value="Foraging over forest"/><span><a href="#"
-                                                                                                         class="tooltip"
-                                                                                                         data-info="">Foraging
-                            over forest habitat</a></span></li>
-                    </ul>
-                </li>
-            </ul>
-            <footer class="panel-footer">
-                <div class="btn-group">
-                    <button class="save btn btn-default btn-xs" type="submit">Save</button>
-                    <button class="edit btn btn-default btn-xs" style="display:none;">Edit</button>
-                </div>
-            </footer>
-        </fieldset>
-    </form>
+
+
+
+
+
+
+
+
 </div>
 
-<div class="col-lg-9">
-<form id="sightingLocation" class="" method="post" data-form-number="2">
-<fieldset class="panel panel-default">
-<header class="panel-heading">Location:
-    <a href="#" onclick="initialize();" id="resetMap" class="btn btn-xs btn-default pull-right">Reset Map
-        <span class="glyphicon glyphicon-refresh"></span></a>
-</header>
-<div class="panel-body">
-    <ul class="col-lg-4">
-        <li class="half">
-            <label>State:</label>
-            <select name="state">
 
-                <option value="Alabama">
-                    Alabama
-                </option>
-                <option value="Alaska">
-                    Alaska
-                </option>
-                <option value="Arizona">
-                    Arizona
-                </option>
-                <option value="Arkansas">
-                    Arkansas
-                </option>
-                <option value="California">
-                    California
-                </option>
-                <option value="Colorado">
-                    Colorado
-                </option>
-                <option value="Connecticut">
-                    Connecticut
-                </option>
-                <option value="Delaware">
-                    Delaware
-                </option>
-                <option value="Florida">
-                    Florida
-                </option>
-                <option value="Georgia">
-                    Georgia
-                </option>
-                <option value="Hawaii">
-                    Hawaii
-                </option>
-                <option value="Idaho">
-                    Idaho
-                </option>
-                <option value="Illinois">
-                    Illinois
-                </option>
-                <option value="Indiana">
-                    Indiana
-                </option>
-                <option value="Iowa">
-                    Iowa
-                </option>
-                <option value="Kansas">
-                    Kansas
-                </option>
-                <option value="Kentucky">
-                    Kentucky
-                </option>
-                <option value="Louisiana">
-                    Louisiana
-                </option>
-                <option value="Maine">
-                    Maine
-                </option>
-                <option value="Maryland">
-                    Maryland
-                </option>
-                <option value="Massachusetts">
-                    Massachusetts
-                </option>
-                <option value="Michigan">
-                    Michigan
-                </option>
-                <option value="Minnesota">
-                    Minnesota
-                </option>
-                <option value="Mississippi">
-                    Mississippi
-                </option>
-                <option value="Missouri">
-                    Missouri
-                </option>
-                <option value="Montana">
-                    Montana
-                </option>
-                <option value="Nebraska">
-                    Nebraska
-                </option>
-                <option value="Nevada">
-                    Nevada
-                </option>
-                <option value="New Hampshire">
-                    New Hampshire
-                </option>
-                <option value="New Jersey">
-                    New Jersey
-                </option>
-                <option value="New Mexico">
-                    New Mexico
-                </option>
-                <option value="New York">
-                    New York
-                </option>
-                <option value="North Carolina">
-                    North Carolina
-                </option>
-                <option value="North Dakota">
-                    North Dakota
-                </option>
-                <option value="Ohio">
-                    Ohio
-                </option>
-                <option value="Oklahoma">
-                    Oklahoma
-                </option>
-                <option value="Oregon">
-                    Oregon
-                </option>
-                <option value="Pennsylvania">
-                    Pennsylvania
-                </option>
-                <option value="Rhode Island">
-                    Rhode Island
-                </option>
-                <option value="South Carolina">
-                    South Carolina
-                </option>
-                <option value="South Dakota">
-                    South Dakota
-                </option>
-                <option value="Tennessee">
-                    Tennessee
-                </option>
-                <option value="Texas">
-                    Texas
-                </option>
-                <option value="Utah">
-                    Utah
-                </option>
-                <option value="Vermont">
-                    Vermont
-                </option>
-                <option value="Virginia">
-                    Virginia
-                </option>
-                <option value="Washington">
-                    Washington
-                </option>
-                <option value="West Virginia">
-                    West Virginia
-                </option>
-                <option value="Wisconsin">
-                    Wisconsin
-                </option>
-                <option value="Wyoming">
-                    Wyoming
-                </option>
-            </select>
-        </li>
-        <li class="half">
-            <label>County:</label>
-            <input type="text" name="county" class="form-control" data-regex="" placeholder=""/>
-        </li>
-        <li class="full">
-            <label></label>
-
-        </li>
-    </ul>
-    <div class="map col-lg-8">
-        <ul>
-            <li class="quarter">
-                <label>Latitude:</label>
-                <input type="text" id="locationLat" class="form-control" name="sightingLat" value=""/>
-            </li>
-            <li class="quarter">
-                <label>Longitude:</label>
-                <input type="text" id="locationLng" class="form-control" name="sightingLng" value=""/>
-            </li>
-        </ul>
-        <div class="" id="map-canvas" style="border:1px solid #ccc;height:300px"></div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Upload Sighting Photos</h4>
+            </div>
+            <div class="alert alert-full" id="UploadError" style="display:none;"></div>
+            <div class="modal-body">
+                <div id="main">
+                    <form method="post" enctype="multipart/form-data"  action="" id="imageUpload">
+                            <!--<input type="file" name="images" id="images" class="filestyle " data-input="false"/> -->
+                        <input type="file" name="images" class="filestyle" id="fileInput">
+                        <button type="submit" class="btn btn-default btn-sm pull-right ">Upload Image</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<footer class="panel-footer">
-    <div class="btn-group">
-        <button class="save btn btn-default btn-xs" type="submit">Save</button>
-        <button class="edit btn btn-default btn-xs" style="display:none;">Edit</button>
-    </div>
-</footer>
-</fieldset>
-</form>
-</div>
-</div>
+
+
+
+
 <script>
+
+    jQuery(":file").filestyle({classButton: "btn btn-default btn-sm"});
+
+
 
     jQuery('#imageUpload').submit(function(event){ // CATCH FORM SUBMIT
         // PREVENT DEFAULT FORM FUNCTIONALITY
         event.preventDefault();
         // DEFINE FORM
         var form = jQuery(this);
-        // DISABLE BUTTON UNTIL UPLOAD IS COMPLETE TO PREVENT MULTIPLE UPLOADS
-        form.find('button').attr('disabled', 'disabled').text('Uploading...');
         // GET FORMDATA FOR IMAGES TO SEND TO PHP SCRIPT
         var formData = new FormData(form[0]);
         // CALL AJAX AND POST DATA FROM FORM - RETURN VALUE IS A JSON STRING FROM IMGUR
+        var uploadError = jQuery('#UploadError');
+        // REMOVE ALL CLASSES FROM UPLOAD ERROR DIV
+        uploadError.removeClass('alert-danger').removeClass('alert-success');
+        // DISABLE FORM BUTTON WHILE UPLOADING
+        form.find('button').html('Uploading...').prop('disabled', true);
+        // START AJAX FUNCTION TO PUSH IMAGE DATA TO IMGUR PHP SCRIPT
         jQuery.ajax({
             url: 'assets/scripts/upload.php',
             type: 'POST',
@@ -341,22 +87,26 @@ $currentMonth = date('F'); ?>
             async: false,
             success: function (imgurData) { // REGARDLESS OF WHAT IT IS, THERE WILL BE A RESPONSE
                 // PARSE RESPONSE INTO JSON FORMAT
-                var imgurData = JSON.parse(imgurData);console.log(imgurData.success);
+                var imgurData = JSON.parse(imgurData);
+
                 if(imgurData.success == true){ // IF JSON OBJECT RETURNS TRUE, THEN IMGUR SENT THE RESPONSE
-                    // ADD VALIDATION ON UPLOAD FORM BUTTON / WILL CHANGE LATER
-                    form.find('button').removeAttr('disabled').text('Uploaded!').addClass('btn-success');
                     // BIND IMGUR LINK TO UPLOADED IMAGE - WILL BE STORED IN DATABASE
                     var imgLink = imgurData.data.link;
                     // APPEND NEWLY UPLOADED IMAGE TO A SPOT IN THE CURRENT APP TO LET THE USER KNOW IT WAS GOOD
-                    jQuery('#imgContainer').append('<img src="'+imgLink+'" style="width:100%; height:100%;" alt=""/>')
+                    form.append('<div id="imgContainer"></div>');
+                    jQuery('#imgContainer').append('<img src="'+imgLink+'" style="width:100%; height:100%;" alt=""/>');
+                    uploadError.html('<p>Upload Successful!</p>').addClass('alert-success').slideDown();
+                    form.find('button').html('Upload Image').prop('disabled', false);
+                    form.trigger('reset');
                 } else { // HANDLE ANY ERRORS THROWN
-
+                    uploadError.html('<p>'+imgurData.message+'</p>').addClass('alert-danger').slideDown();
+                    form.find('button').html('Upload Image').prop('disabled', false);
                 }
             },
             cache: false,
             contentType: false,
             processData: false
-        });it
+        });
     });
 
     jQuery('a.infoWindow').popover({
@@ -365,7 +115,6 @@ $currentMonth = date('F'); ?>
         trigger:'hover'
     });
 
-    jQuery('#formMsg').hide();
 
     function supports_html5_storage() {
         try {
@@ -375,46 +124,9 @@ $currentMonth = date('F'); ?>
         }
     }
 
-    // ON SAVE BUTTON CLICK, FIND NEAREST FORM, THEN BEGIN VALIDATION
-    jQuery(document).on('click', 'button.save', function (event) {
-        event.preventDefault();
-        var form = jQuery(this).closest('form');
-        var btn = jQuery(this);
-        var formNumber = form.attr('data-form-number');
-        if (form.hasClass('done') == false) {
-            var formData = form.serializeArray();
-            var storage = supports_html5_storage();
-            manage_form_data(form, btn, formNumber, formData, storage);
-        }
 
-    });
 
-    function manage_form_data(form, btn, formNumber, formData, storage) {
-        if (true) {
-            if (storage == true) {
-                for (var i = 0; i < formData.length; i++) {
-                    localStorage.setItem(JSON.stringify(formData[i].name), JSON.stringify(formData[i].value));
-                }
-                ;
-                form.addClass('done').find('.panel-body').slideUp('slow', function () {
-                    form.find('fieldset').addClass('panel-success');
-                    form.find('button.edit').show();
-                    btn.removeClass('btn-default').addClass('btn-success').text('Saved!');
-                });
-
-                var formNumber = parseInt(formNumber) + 1;
-                var nextForm = jQuery(document).find('[data-form-number="' + formNumber + '"]');
-                nextForm.find('.panel-body').slideDown('slow', function () {
-                    nextForm.find('footer button.save').show();
-                    initialize();
-                });
-            } else {
-                cookie_storage(formData);
-            }
-        }
-    }
-
-    function initialize() {
+    /* function initialize() { // DEFINE LOCAL STORAGE VERSUS COOKIES HERE
         var lat = localStorage.getItem('storedLatitude');
         var lng = localStorage.getItem('storedLongitude');
         var coords = new google.maps.LatLng(lat, lng);
@@ -442,7 +154,7 @@ $currentMonth = date('F'); ?>
             jQuery('#locationLng').val(lng);
         });
 
-    }
+    } */
 
 
 </script>

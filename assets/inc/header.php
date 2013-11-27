@@ -47,3 +47,4 @@ $permalink = str_replace('.php','',$permalink);
         <button type="submit" class="btn btn-default btn-sm">Submit</button>
     </form>
 </div>
+<div class="wrapper" id="errorMsg" class="alert alert-full"></div>

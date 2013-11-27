@@ -5,6 +5,7 @@ function exclude_file_types(){
     switch ($fileType) {
         case 'image/png':$valid = true;break;
         case 'image/jpg':$valid = true;break;
+        case 'image/jpeg':$valid = true;break;
         case 'image/gif':$valid = true;break;
         default: $valid = false;
     }
@@ -18,7 +19,6 @@ $image = $_FILES['images']['tmp_name'];
 
 // GET FILE CONTENTS TO CREATE SOMETHING TO ENCODE WITH BASE64
 $image = file_get_contents($image);
-
 // DEFINE ANONYMOUS CLIENT ID
 $client_id = "9c616d70834d15a";
 
@@ -40,7 +40,7 @@ curl_close($ch);
 echo $reply;
 
 } else {
-$output = array('success'=>false, 'status'=>'404' );
+$output = array('success' => 'false', 'status '=> '404', 'message' => 'Imgur could not upload this image, please try again.');
 $output = json_encode($output);
     echo $output;
 } ?>
