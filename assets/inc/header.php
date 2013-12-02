@@ -1,31 +1,44 @@
-<?php
-$permalink = basename($_SERVER['REQUEST_URI']);
-$permalink = str_replace('.php','',$permalink);
-?>
+<?php $permalink = basename($_SERVER['REQUEST_URI']);
+$permalink = str_replace('.php','',$permalink);?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>KiteTracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 <link href="assets//css/style.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Fjord+One|PT+Sans:400,700' rel='stylesheet' type='text/css'>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="assets/scripts/cookie.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAurG7BXBQXqdyRebvS68YZ8-GkfFp3WDE&amp;sensor=true">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAurG7BXBQXqdyRebvS68YZ8-GkfFp3WDE&amp;sensor=false">
 </script>
 </head>
 <body onLoad="load_map_utilities();">
 <div class="wrapper header">
 	<nav class="navbar navbar-inverse" role="navigation">
-		<ul class="nav navbar-nav  pull-right">
-			<li><a href="/KiteTracker/">About Swallow-tailed Kites</a></li>
-			<li><a href="/KiteTracker/recentSightings.php">Recent sightings</a></li>
-			<li><a href="/KiteTracker/reportSighting.php">Report a sighting</a></li>
-            <li><a href="#" id="advancedSearch">Advanced Search <span class="glyphicon glyphicon-search"></span></a></li>
-		</ul>
-		<a class="navbar-brand" href="#">KiteTracker</a>
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">KiteTracker</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav ">
+                <li><a href="/KiteTracker/">About Swallow-tailed Kites</a></li>
+                <li><a href="/KiteTracker/recentSightings.php">Recent sightings</a></li>
+                <li><a href="/KiteTracker/reportSighting.php">Report a sighting</a></li>
+                <li><a href="#" id="advancedSearch" title="Change Zip Code"><span class="glyphicon glyphicon-search"></span></a></li>
+            </ul>
+        </div>
+
 	</nav>
 </div>
 <div class="wrapper form" style="display:none;padding:10px 0;">
@@ -47,4 +60,3 @@ $permalink = str_replace('.php','',$permalink);
         <button type="submit" class="btn btn-default btn-sm">Submit</button>
     </form>
 </div>
-<div class="wrapper" id="errorMsg" class="alert alert-full"></div>
