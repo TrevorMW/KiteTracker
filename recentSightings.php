@@ -81,7 +81,6 @@ function initialize(coordinates) {
     var tRlng = new Number(coordinates.lng) + 0.25;
     var bLlng = new Number(coordinates.lng) - 0.35;
 
-    console.log(coordinates.lat, coordinates.lng);
     // NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
     var coords = {"lat":coordinates.lat,"long":coordinates.lng, "tRlat":tRlat, "tRlng":tRlng, "bLlat":bLlat, "bLlng":bLlng};
 
@@ -89,7 +88,6 @@ function initialize(coordinates) {
         var coords = {'lat':0,'long':0, 'tRlat':0, 'tRlng':0, 'bLlat':0, 'bLlng':0};
     }
 
-    console.log(coords);
    	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
     var serializedCoords = jQuery.param(coords);
 
@@ -113,20 +111,6 @@ function initialize(coordinates) {
     // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
     var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
 
-    /* var populationOptions = {
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.5,
-        strokeWeight: 2,
-        fillColor: '#FF0000',
-        fillOpacity: 0.15,
-        map: map,
-        center: center,
-        radius: 30000
-    };
-
-    var cityCircle = new google.maps.Circle(populationOptions); */
-
-    //find_sightings_records(map, serializedCoords);
     find_sightings_records(map, serializedCoords);
 
 } // END INITALIZE FUNCTION
@@ -150,11 +134,11 @@ jQuery.ajax({
 });
 
 }
-function add_map_markers(map, sightingObject) {
-    var sightingObject;
+function add_map_markers(map, sightingObject, markers, i) {
+  var sightingObject;
 
 	// BUILD MARKUP FOR EACH MARKER INFOWINDOW
-	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ sightingObject['species_name'] +'</h3>'+'<div  class="info-window-content">'+
+	var contentString = '<div class="google-info-window" id="info-window" onclick="myClick('+sightingObject['id']+')">'+'<h3>'+ sightingObject['species_name'] +'</h3>'+'<div  class="info-window-content">'+
 	  '<h5>'+ sightingObject['id'] +'</h5> '+'<p>(Sighting occured in '+ sightingObject['county'] +' county).</p>'+'</div>'+'</div>';
 	// DEFINE MARKER CHARACTERISTICS
 	var marker = new google.maps.Marker({
@@ -162,41 +146,48 @@ function add_map_markers(map, sightingObject) {
 	   map: map,
 	   animation:google.maps.Animation.DROP
 	});
-    marker.set('id',sightingObject['id']);
+  marker.set('id',sightingObject['id']);
 
 	// DEFINE INFO WINDOW PARAMETERS
 	var infoWindow = new google.maps.InfoWindow({
 	  content: contentString
 	});
 
-    this.myclick=function(i) {
-        google.maps.event.trigger(gmarkers[i], 'click');
-    };
 
-    // ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFO WINDOW
+  google.maps.event.addListener(marker, 'click', (function(marker) {
+        return function() {
+            infowindow.setContent(markers[i][0]);
+            infowindow.open(map, marker);
+        }
+  })(marker, i));
+
+  markers.push(marker);
+
+
+  /* // ADD CLICK LISTENER ON MARKERS. CLICK SHOWS INFO WINDOW
 	google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.setContent(this.html);
+    infoWindow.setContent(this.html);
 		// var sideLink = jQuery('li#' + id);
 		// sideLink.addClass('active').find('a').css('font-size','red');
-        infoWindow.open(map, marker);
-	});
-
-
-
-    google.maps.event.addListener(infoWindow,'closeclick',function(){
-
-    });
+    infoWindow.open(map, marker);
+	}); */
 
 }
 
-jQuery(document).on('click', 'a.infoWindowHandler', function(){
+function myClick(marker,id){
+    google.maps.event.trigger(marker[id], 'click');
+}
+
+/*jQuery(document).on('click', 'a.infoWindowHandler', function(){
     var markerId = jQuery(this).closest('li').attr('id'); console.log(markerId);
     //var infoWindowID = marker.get('id');console.log(infoWindowID);
     //infoWindow.open(map, markerId);
-});
+});*/
 
 
-function build_sightings_list(map,data){
+function build_sightings_list(map,data, markers){
+    var i = 0;
+    var markers = new Array();
 	// LOOP THROUGH DATA TO BUILD SIDEBAR LIST
     for ( var j = 0; j < data.length; j++) {
 
@@ -214,7 +205,7 @@ function build_sightings_list(map,data){
             "lng":data[j].longitude
         };
 
-        add_map_markers(map, sightingObject);
+        add_map_markers(map, sightingObject, markers, i);
     }
 }
 </script>
