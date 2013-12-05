@@ -1,18 +1,50 @@
+/*
+* kiteTracker MAIN CSS
+*
+*
+*/
+
+/* @group RESETS */
 
 *,a,a:visited,a:focus, a:hover{
     outline:0 !important;
 }
 
+.btn{
+    font-family: 'Roboto Slab', serif;
+}
+
+.alert.alert-full {
+    margin:0;
+    text-align: center;
+    border-radius:0;
+    padding:5px;
+    display:block;
+}
+
+form .form-group{
+    margin-bottom:10px;
+}
+
+/* @end */
+
+
 body{
-	background-color: #ddd;
+    background-color: #ddd;
+    font-size:13px;
     font-family: 'Roboto Slab', serif;
     font-size:17px; font-weight:400;
 }
 
+/* @group SCAFFOLDING */
+
 .wrapper{
-	display:block;
-	width:100%;
-	clear:both;
+    display:block;
+    width:100%;
+    clear:both;
+}
+.wrapper.home{
+    padding:25px;
 }
 
 .wrapper.form{
@@ -20,114 +52,78 @@ body{
     border-bottom:1px solid #444;
     box-shadow:inset 0 0 15px #bbb;
 }
-
-
-.header nav{
-	background-color: #000000;
-	border-radius:0;
-	margin-bottom:0;
-	
+.leftCol{
+    overflow-y:scroll;
+    padding:0;
 }
+.rightCol{
+    position:relative;
+    padding:0;
+}
+
+/* @end */
+
+/* @group TYPOGRAPHY */
+
+
+
+/* @end */
+
+/* @group SPECIAL CONTAINERS */
 
 #map-canvas{
-	border-left:1px solid #444;
+
+    border-left:1px solid #444;
 }
 
-.leftCol{
-	overflow-y:scroll;
-	padding:0;
-}
 
-.rightCol{
-	padding:0;
-}
-
-.alert.alert-full {
-	margin:0;
-    text-align: center;
-    border-radius:0;
-	padding:5px;
-	display:block; 
-}
-
-.btn{
-    font-family: 'Roboto Slab', serif;
-}
 
 #imgContainer{
-    height:300px;padding:0; width:300px; margin:15px auto; border:2px dashed #bbb; border-radius:15px; overflow:hidden;
+    height:300px;
+    padding:0;
+    width:300px;
+    margin:15px auto;
+    border:2px dashed #bbb;
+    border-radius:15px;
+    overflow:hidden;
 }
 
 #imgContainer img{width:100%; height:100%}
 
 
-#resultsMsg {
-	display:none;
-	width:100%;
-	text-align:center;
-	margin:0;
-	float:none;
-	border-radius:0;
-	clear:both;	
-	border-bottom:1px solid green;
-	padding:5px 0;
+
+/* @end */
+
+
+
+/* @group NAVIGATION */
+
+li a {
+    font-size:14px;
+    line-height:20px
 }
 
-#zipcode .modal-body{
-	padding:10px 20px;
-	background-color:#eeeeee;
+.header nav{
+    background-color: #000000;
+    border-radius:0;
+    margin-bottom:0;
+
 }
 
-#zipcode form .form-group{
-	width:71%;	
-}
+/* @end */
+
+/* @group FORMS */
+
+
 #changeZip input[type"text"]{
-	border:1px solid #4d9bd3;
-}
-
-.sightings{
-	display:block;
-	width:100%;
-	padding: 0;
-	margin:0
-}
-.sightings li{
-	list-style:none;
-	margin:0;	
-	padding:0; 
-	background:#444;
-	border-bottom:1px solid #444;
-}
-
-.sightings li a,
-.sightings li a:visited{
-	display:block;
-	background:#ddd;
-	width:100%;
-}
-.sightings li a h4{
-	display:block;
-	width:100%;
-	margin:0;
-	color:#444;
-	padding:5px 3px
-}
-
-.sightings li a:hover{
-	background:#000;
+    border:1px solid #4d9bd3;
 }
 
 
 input[type="file"].form-control{
     background-color:#ddd;
 }
-.report-sighting form{
-    margin:25px;
-}
 
-form .form-group{
-    margin-bottom:10px;
-}
 
 form label{
     padding:5px 0 0 0;
@@ -135,7 +131,7 @@ form label{
 }
 
 form ul.multi{
-   padding-left:0;
+    padding-left:0;
 }
 
 form ul.multi li{
@@ -143,9 +139,19 @@ form ul.multi li{
     font-family: 'Roboto Slab', serif;
 }
 
-form ul.multi li a{
-
+form ul.multi li a,
+form ul.multi li a:visited{
+    color: #444;
 }
+
+form ul.multi li a:hover{
+    color: #000;
+}
+
+.report-sighting form{
+    margin:25px;
+}
+
 
 fieldset{
     position:relative;
@@ -154,6 +160,7 @@ fieldset{
     padding:15px 12px 12px 12px;
     margin-bottom:25px;
 }
+
 fieldset.small{
     font-family: 'Droid Sans', sans-serif;
     font-size:14px;
@@ -204,12 +211,15 @@ fieldset .form-group label:first-child{
     clear:both
 }
 
-fieldset .form-group.has-error label{
+.form-group.has-error label{
     color:red;
 }
-fieldset .form-group.has-error input,
-fieldset .form-group.has-error textarea{
-    background-color:pink
+
+
+.form-group.has-error input,
+.form-group.has-error textarea{
+    background-color:pink;
+    color:red;
 }
 
 .sighting-submit{
@@ -217,6 +227,144 @@ fieldset .form-group.has-error textarea{
     width:100%;
     text-align: right;
 }
+
+/* @end */
+
+/* @group PAGES */
+
+
+/* @group ABOUT */
+
+
+
+
+
+/* @end */
+
+/* @group REPORT SIGHTING */
+
+
+
+#zipcode .modal-body{
+    padding:10px 20px;
+    background-color:#eeeeee;
+}
+
+#zipcode form .form-group{
+    width:71%;
+}
+
+
+/* @end */
+
+/* @group RECENT SIGHTINGS */
+
+#css-toolbar{
+    position:absolute;
+    z-index:9999;
+    bottom:15px;
+    right:15px;
+    border:1px solid #aaa;
+    box-shadow: 0 0 65px #8fa8d0;
+}
+
+#js-sightingsList{
+    overflow:scroll;
+    margin-bottom:0;
+}
+
+#js-sightingsList ul{
+    overflow-y:scroll;
+    display:block;
+    padding:0;
+    margin-top:40px;
+    box-shadow:inset 0 0 15px #666;
+}
+
+#js-sightingsList ul li{
+   display:block;
+   margin:0;
+   list-style:none;
+   padding:3px 8px;
+   background-color:#fff;
+   border-top:1px solid #ccc;
+}
+#js-sightingsList ul li:first-child{
+    border-top:none;
+}
+#js-sightingsList ul li a h4{
+    padding:0;
+    font-size:14px;
+    margin:0;
+}
+
+
+#js-sightingsList .panel-heading{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    z-index:99;
+}
+
+.panel{
+    border-left:0;
+    border-right:0;
+    border-radius:0;
+}
+
+.panel-body{
+    margin-bottom:0;
+}
+
+.sightings{
+    display:block;
+    width:100%;
+    padding: 0;
+    margin:0
+}
+.sightings li{
+    list-style:none;
+    margin:0;
+    padding:0;
+    background:#444;
+    border-bottom:1px solid #444;
+}
+
+.sightings li a,
+.sightings li a:visited{
+    display:block;
+    background:#ddd;
+    width:100%;
+}
+.sightings li a h4{
+    display:block;
+    width:100%;
+    margin:0;
+    color:#444;
+    padding:5px 3px
+}
+
+.sightings li a:hover{
+    background:#000;
+}
+
+
+#resultsMsg {
+    display:none;
+    width:100%;
+    text-align:center;
+    margin:0;
+    float:none;
+    border-radius:0;
+    clear:both;
+    border-bottom:1px solid green;
+    padding:5px 0;
+}
+
+/* @end */
+
+/* @end */
 
 
 

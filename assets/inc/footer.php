@@ -23,11 +23,6 @@
 
 <script>
 
-    jQuery(document).on('click', '#advancedSearch', function(event){
-         event.preventDefault();
-        jQuery('.wrapper.form').slideToggle();
-    });
-
    // CONTROL STRUCTURE FOR LOADING UTILITIES AND RESOURCES ASSOCIATED WITH PAGES THAT REQUIRE A GOOGLE MAP
    // THE STRUCTURE CHECKS FOR HTML5 LOCAL STORAGE CAPABILITY AND HTML5 GEOLOCATION CAPABILITY.
    // IT ALSO PROVIDES FALLBACKS IN CASE EACH OF THESE ARE NOT AVAILABLE TO THE USER
@@ -65,6 +60,7 @@
                        jQuery.cookie.json = true;
                        // CACHE OBJECT IN COOKIE FOR FURTHER USE
                        jQuery.cookie('Kite_Tracker_Coordinates', coords,  { expires: 1, path: '/' });
+
                        initialize(coords);
                    }
 

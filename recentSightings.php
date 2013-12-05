@@ -1,36 +1,54 @@
 <?php include('assets/inc/header.php'); include('functions.php'); ?>
 
-	<div class="col-lg-3 col-md-3 col-sm-3 leftCol">
-		<div class="alert" id="resultsMsg"></div>
-		<ul class="sightings" id="sightingsPanel"></ul>
-	</div>
+
 	
-	<div class="col-lg-9 col-md-9 col-sm-9 rightCol">
+	<div class="col-lg-12 rightCol">
+      <nav class="navbar navbar-default" role="navigation" draggable="true" id="css-toolbar">
+          <div id="js-sightingsList" class="panel panel-default" style="display:none;">
+              <div class="panel-heading">
+                  <h4 style="margin:0">Sightings List <span class="label" id="resultNum">Default</span></h4>
+              </div>
+              <ul class="panel-body">
+
+              </ul>
+          </div>
+          <ul class="nav navbar-nav">
+              <li><a href="#" title="Open Sightings List" id="sightingsPanelTrigger"><span class="glyphicon glyphicon-list"></span></a></li>
+              <li><a href="#">Link</a></li>
+
+          </ul>
+          <form class="navbar-form navbar-left" role="search" id="changeZip">
+              <div class="form-group">
+                  <input type="text" id="newZip" class="form-control input-sm" data-toggle="" placeholder="Change Zip Code">
+              </div>
+              <button type="submit" class="btn btn-default btn-sm">Submit</button>
+          </form>
+      </nav>
 		<div id="map-canvas"></div>
 	</div>
-	
-
-
 
 <script type="text/javascript">
 
+jQuery(document).on('click','#sightingsPanelTrigger',function(){
+   var height = jQuery(window).height() * .75; console.log(height)
+  jQuery('#js-sightingsList').css('height', height).slideToggle();
+});
 
 // CHANGE ZIP CODE AFTER INITIAL RENDER OF RESULTS
 jQuery('#changeZip').submit(function(event){
 	event.preventDefault();
-	// CLEAR LIST OF PREVIOUS RESULTS
-	jQuery('#sightingsPanel').html('');
 	// GRAB NEW ZIP CODE
-	var zip = jQuery(this).find('#newZip').val();
-    var limit = jQuery(this).find('#limitSightings').val();
+	var zip = jQuery(this).find('input[type="text"]').val();
 	// PASS NEW ZIP CODE THROUGH GEOCODER > INITIALIZE > BUILD_SIGHTINGS
-    if(zip != null){
-        geocode_zip(zip, limit);
+    console.log(typeof zip);
+    if(zip != ''){
+        geocode_zip(zip);
     } else {
-
+       jQuery(this).find('.form-group').addClass('has-error').find('input').attr('placeholder','Please Enter Zip Code');
     }
-
 });
+
+
 
 // THROW ERROR IF ZIP ENTERED IS NOT VALID
 function zip_error(){
@@ -189,10 +207,21 @@ function build_sightings_list(map,data, markers){
     var i = 0;
     var markers = new Array();
 	// LOOP THROUGH DATA TO BUILD SIDEBAR LIST
+   var numResults =  jQuery('span#resultNum');
+    numResults.text(data.length); console.log(data.length <= 0 );
+    numResults.removeClass('label-success').removeClass('label-danger');
+    if(data.length <= 0){
+        numResults.addClass('label-danger');
+    } else {
+        numResults.addClass('label-success');
+    }
+
     for ( var j = 0; j < data.length; j++) {
 
-        var sightingsHTML = '<li id="'+data[j].sample_event_id+'"><a href="#" onclick="myClick('+data[j].sample_event_id+');" class="infoWindowHandler"><h4>'+data[j].sample_event_id+'</h4></a></li>';
-        jQuery('#sightingsPanel').append(sightingsHTML);
+        var sightingsHTML = '<li id="'+data[j].sample_event_id+'">'+
+        '<a href="#" onclick="myClick('+data[j].sample_event_id+');" class="infoWindowHandler">'+
+         '<h4><span class="glyphicon glyphicon-comment infowWindowHandler"></span> '+data[j].sample_event_id+'</h4></a></li>';
+        jQuery('#js-sightingsList ul').append(sightingsHTML);
 
         var sightingObject = {
             "id":data[j].sample_event_id,

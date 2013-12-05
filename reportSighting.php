@@ -29,15 +29,15 @@ $currentMonth = date('F'); ?>
                 <div class="row">
                     <div class="form-group col-lg-4">
                         <label>Image Link:</label>
-                        <input type="text" value="" name="imageLink" id="imgurLink" class="form-control" disabled/>
+                        <input type="text" value="" name="imageLink" id="imgurLink" class="form-control" readonly/>
                     </div>
                     <div class="form-group col-lg-4">
                         <label>Latitude:</label>
-                        <input type="text" id="locationLat" class="form-control" name="sightingLat" value="" disabled/>
+                        <input type="text" id="locationLat" class="form-control" name="sightingLat" value="" readonly/>
                     </div>
                     <div class="form-group col-lg-4">
                         <label>Longitude:</label>
-                        <input type="text" id="locationLng" class="form-control" name="sightingLng" value="" disabled/>
+                        <input type="text" id="locationLng" class="form-control" name="sightingLng" value="" readonly/>
                     </div>
                 </div>
             </fieldset>
@@ -182,7 +182,7 @@ $currentMonth = date('F'); ?>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Was a <a href="#" class="" data-info="">nest</a> observed?</label>
+                    <label>Was a <a href="#" class="infoWindow" data-toggle="popover" title="Swallow-tailed Kite nest" data-content="This is a swallow-tailed Kite nest">nest</a> observed?</label>
                     <label class="radio-inline">
                         <input type="radio" name="nestObserved" value="0"/>
                         Yes</label>
@@ -373,9 +373,6 @@ $currentMonth = date('F'); ?>
 </form>
 </div>
 
-
-
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -396,6 +393,7 @@ $currentMonth = date('F'); ?>
         </div>
     </div>
 </div>
+
 <div class="modal fade" tabindex="-1" role="dialog" id="locationPicker" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -409,52 +407,13 @@ $currentMonth = date('F'); ?>
                      style="width:100%; height:350px; margin-top:10px; border:1px solid #ddd; display:block;"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-block" data-dismiss="modal" aria-hidden="true">Done </button>
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" aria-hidden="true">Done </button>
             </div>
         </div>
     </div>
 </div>
 
-
-
-
-
 <script>
-
-    jQuery('#sightingForm').submit(function(event){
-      event.preventDefault(); alert('submit captured');
-      var form = jQuery('#sightingForm');
-      form.find('input[type="text"], textarea, input[type="email"]').each(function(){
-         var input = jQuery(this);
-         input.parent().removeClass('has-error');
-         var regex = jQuery(this).attr('data-regex'); console.log(regex);
-         if(regex){
-             var value = input.val(); console.log(value)
-             var regexObj = new RegExp(regex, 'i'); console.log(regexObj);
-             var outcome = regexObj.test(value); console.log(outcome);
-             if(outcome == false){
-                 throw_input_error(input);
-             }
-
-
-         }
-      });
-        submit_sighting(form);
-    });
-
-
-    function submit_sighting(form){
-        var formData = form.serialize(); console.log(formData);
-        /*jQuery.ajax({
-
-
-        }) */
-    }
-
-    function  throw_input_error(input){ console.log(input.parent());
-        input.parent().addClass('has-error');
-
-    }
 
     jQuery(document).on('click', '#googleModal', function () {
         jQuery('#locationPicker').modal('show');
@@ -474,6 +433,36 @@ $currentMonth = date('F'); ?>
         }
     }
 
+    jQuery('#sightingForm').submit(function(event){
+      event.preventDefault();
+      var form = jQuery('#sightingForm');
+      form.find('input[type="text"], textarea, input[type="email"]').each(function(){
+         var input = jQuery(this);
+         input.parent().removeClass('has-error');
+         var regex = jQuery(this).attr('data-regex'); console.log(regex);
+         if(regex){
+             var value = input.val(); console.log(value)
+             var regexObj = new RegExp(regex, 'i'); console.log(regexObj);
+             var outcome = regexObj.test(value); console.log(outcome);
+             if(outcome == false){
+                 throw_input_error(input);
+             }
+         }
+      });
+        submit_sighting(form);
+    });
+
+    function  throw_input_error(input){ console.log(input.parent());
+        input.parent().addClass('has-error');
+    }
+
+    function submit_sighting(form){
+        var formData = form.serialize(); console.log(formData);
+        /*jQuery.ajax({
+          SEND FOR DATA TO PHP SCRIPT
+        }) */
+    }
+
     jQuery('#imageUpload').submit(function (event) { // CATCH FORM SUBMIT
         // PREVENT DEFAULT FORM FUNCTIONALITY
         event.preventDefault();
@@ -482,7 +471,7 @@ $currentMonth = date('F'); ?>
         // FORM BUTTON
         var formBtn = form.find('button#uploadImageBtn');
         // DISABLE FORM BUTTON WHILE UPLOADING
-        formBtn.text('Hello...').prop('disabled', true).prepend('<img src="http://www.bba-reman.com/images/fbloader.gif" alt=""/>');
+        //formBtn.text('Hello...').prop('disabled', true).prepend('<img src="http://www.bba-reman.com/images/fbloader.gif" alt=""/>');
         // GET FORMDATA FOR IMAGES TO SEND TO PHP SCRIPT
         var formData = new FormData(form[0]);
         // CALL AJAX AND POST DATA FROM FORM - RETURN VALUE IS A JSON STRING FROM IMGUR
@@ -510,12 +499,12 @@ $currentMonth = date('F'); ?>
                     form.append(imageField);
                     jQuery('#imgContainer').append('<img src="' + imgLink + '" style="width:100%; height:100%;" alt=""/>');
                     uploadError.html('<p>Upload Successful!</p>').addClass('alert-success').slideDown();
-                    formBtn.html('Upload Image').prop('disabled', false);
+                    //formBtn.html('Upload Image').prop('disabled', false);
                     jQuery('#imgurLink').val(imgLink);
                     form.trigger('reset');
                 } else { // HANDLE ANY ERRORS THROWN
                     uploadError.html('<p>' + imgurData.message + '</p>').addClass('alert-danger').slideDown();
-                    formBtn.html('Upload Image').prop('disabled', false);
+                    //formBtn.html('Upload Image').prop('disabled', false);
                 }
             },
             cache:false,

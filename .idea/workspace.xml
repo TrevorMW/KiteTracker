@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="18c2e21e-1a01-44fe-a430-ccfb5486f474" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/assets/scripts/filestyle.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/css/style.css" afterPath="$PROJECT_DIR$/assets/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/inc/footer.php" afterPath="$PROJECT_DIR$/assets/inc/footer.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/inc/header.php" afterPath="$PROJECT_DIR$/assets/inc/header.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recentSightings.php" afterPath="$PROJECT_DIR$/recentSightings.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/reportSighting.php" afterPath="$PROJECT_DIR$/reportSighting.php" />
     </list>
@@ -35,17 +36,20 @@
       <file leaf-file-name="header.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/inc/header.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="89" selection-start="539" selection-end="539" vertical-scroll-proportion="-6.4">
+            <state line="44" column="0" selection-start="1979" selection-end="1979" vertical-scroll-proportion="-21.12">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recentSightings.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="recentSightings.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/recentSightings.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="166" column="33" selection-start="5309" selection-end="5309" vertical-scroll-proportion="-23.04">
-              <folding />
+            <state line="211" column="69" selection-start="7357" selection-end="7357" vertical-scroll-proportion="0.57761735">
+              <folding>
+                <element signature="e#266#287#0" expanded="true" />
+                <element signature="e#353#369#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -53,7 +57,7 @@
       <file leaf-file-name="footer.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/inc/footer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="0" selection-start="5172" selection-end="5172" vertical-scroll-proportion="0.0">
+            <state line="91" column="31" selection-start="4098" selection-end="4098" vertical-scroll-proportion="-12.16">
               <folding />
             </state>
           </provider>
@@ -62,7 +66,7 @@
       <file leaf-file-name="reportSighting.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/reportSighting.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="369" column="16" selection-start="21849" selection-end="21864" vertical-scroll-proportion="-17.92">
+            <state line="2" column="0" selection-start="66" selection-end="93" vertical-scroll-proportion="-1.28">
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#4;n#fieldset#0;n#div#1;n#div#1;n#form#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
@@ -76,16 +80,26 @@
       <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="57" selection-start="2855" selection-end="2855" vertical-scroll-proportion="-20.48">
-              <folding />
+            <state line="43" column="23" selection-start="1699" selection-end="1699" vertical-scroll-proportion="-27.52">
+              <folding>
+                <marker date="1386209726000" expanded="true" signature="919:2002" placeholder="..." />
+                <marker date="1386209726000" expanded="true" signature="967:2002" placeholder="..." />
+                <marker date="1386209726000" expanded="true" signature="1039:2002" placeholder="..." />
+                <marker date="1386209726000" expanded="true" signature="1189:1339" placeholder="..." />
+                <marker date="1386209726000" expanded="true" signature="1636:2002" placeholder="..." />
+                <marker date="1386209726000" expanded="true" signature="1753:2002" placeholder="..." />
+                <marker date="1386209726000" expanded="true" signature="2136:2200" placeholder="..." />
+                <marker date="1386209726000" expanded="true" signature="2325:2434" placeholder="..." />
+                <marker date="1386209726000" expanded="true" signature="2680:2693" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="217" column="21" selection-start="3319" selection-end="3319" vertical-scroll-proportion="0.9631761">
+            <state line="279" column="17" selection-start="3750" selection-end="3750" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -113,16 +127,16 @@
         <option value="$PROJECT_DIR$/assets/scripts/findSightings.php" />
         <option value="$PROJECT_DIR$/assets/scripts/cookie.js" />
         <option value="$PROJECT_DIR$/adsfdf.html" />
-        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/assets/scripts/upload.php" />
         <option value="$PROJECT_DIR$/assets/scripts/filestyle.js" />
-        <option value="$PROJECT_DIR$/assets/inc/footer.php" />
         <option value="$PROJECT_DIR$/asdfvb.php" />
-        <option value="$PROJECT_DIR$/assets/inc/header.php" />
         <option value="$PROJECT_DIR$/asdgf" />
-        <option value="$PROJECT_DIR$/recentSightings.php" />
         <option value="$PROJECT_DIR$/reportSighting.php" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/assets/inc/footer.php" />
+        <option value="$PROJECT_DIR$/assets/inc/header.php" />
         <option value="$PROJECT_DIR$/assets/css/style.css" />
+        <option value="$PROJECT_DIR$/recentSightings.php" />
       </list>
     </option>
   </component>
@@ -426,7 +440,17 @@
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="75" column="57" selection-start="2855" selection-end="2855" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <marker date="1386209726000" expanded="true" signature="919:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="967:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="1039:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="1189:1339" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="1636:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="1753:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="2136:2200" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="2325:2434" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="2680:2693" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -447,7 +471,10 @@
     <entry file="file://$PROJECT_DIR$/recentSightings.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="10" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="e#266#287#0" expanded="true" />
+            <element signature="e#353#369#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -476,37 +503,9 @@
         <state line="0" column="896" selection-start="896" selection-end="896" vertical-scroll-proportion="0.1869783" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/inc/footer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="0" selection-start="5172" selection-end="5172" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/inc/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="89" selection-start="539" selection-end="539" vertical-scroll-proportion="-6.4">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="57" selection-start="2855" selection-end="2855" vertical-scroll-proportion="-20.48">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/recentSightings.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="166" column="33" selection-start="5309" selection-end="5309" vertical-scroll-proportion="-23.04">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/reportSighting.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="369" column="16" selection-start="21849" selection-end="21864" vertical-scroll-proportion="-17.92">
+        <state line="2" column="0" selection-start="66" selection-end="93" vertical-scroll-proportion="-1.28">
           <folding>
             <element signature="n#style#0;n#div#0;n#div#4;n#fieldset#0;n#div#1;n#div#1;n#form#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
@@ -516,10 +515,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/inc/footer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="31" selection-start="4098" selection-end="4098" vertical-scroll-proportion="-12.16">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/inc/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="0" selection-start="1979" selection-end="1979" vertical-scroll-proportion="-21.12">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="23" selection-start="1699" selection-end="1699" vertical-scroll-proportion="-27.52">
+          <folding>
+            <marker date="1386209726000" expanded="true" signature="919:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="967:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="1039:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="1189:1339" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="1636:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="1753:2002" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="2136:2200" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="2325:2434" placeholder="..." />
+            <marker date="1386209726000" expanded="true" signature="2680:2693" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assets/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="217" column="21" selection-start="3319" selection-end="3319" vertical-scroll-proportion="0.9631761">
+        <state line="279" column="17" selection-start="3750" selection-end="3750" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/recentSightings.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="211" column="69" selection-start="7357" selection-end="7357" vertical-scroll-proportion="0.57761735">
+          <folding>
+            <element signature="e#266#287#0" expanded="true" />
+            <element signature="e#353#369#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -31,32 +31,14 @@ $permalink = str_replace('.php','',$permalink);?>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-            <ul class="nav navbar-nav ">
+            <ul class="nav navbar-nav pull-right">
                 <li><a href="/KiteTracker/">About Swallow-tailed Kites</a></li>
                 <li><a href="/KiteTracker/recentSightings.php">Recent sightings</a></li>
                 <li><a href="/KiteTracker/reportSighting.php">Report a sighting</a></li>
-                <li><a href="#" id="advancedSearch" title="Change Zip Code"><span class="glyphicon glyphicon-search"></span></a></li>
             </ul>
         </div>
 
 	</nav>
 </div>
-<div class="wrapper form" style="display:none;padding:10px 0;">
-    <form class="col-lg-12 form-inline" role="search" id="changeZip">
-        <div class="form-group">
-            <select id="limitSightings" class="form-control input-sm">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="150">150</option>
-                <option value="200">200</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <input type="text" id="newZip" class="form-control input-sm"  placeholder="Enter a new zipcode">
-        </div>
 
-        <button type="submit" class="btn btn-default btn-sm">Submit</button>
-    </form>
-</div>
+
