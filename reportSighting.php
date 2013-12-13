@@ -373,7 +373,7 @@ $currentMonth = date('F'); ?>
 </form>
 </div>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -488,9 +488,10 @@ $currentMonth = date('F'); ?>
             type:'POST',
             data:formData,
             async:false,
+            headers : { "cache-control": "no-cache" }, // MUST HAVE CACHE BUSTER FOR IOS 6
             success:function (imgurData) { // REGARDLESS OF WHAT IT IS, THERE WILL BE A RESPONSE
                 // PARSE RESPONSE INTO JSON FORMAT
-                var imgurData = JSON.parse(imgurData);
+                var imgurData = JSON.parse(imgurData); //alert(imgurData.success);
 
                 if (imgurData.success == true) { // IF JSON OBJECT RETURNS TRUE, THEN IMGUR SENT THE RESPONSE
                     // BIND IMGUR LINK TO UPLOADED IMAGE - WILL BE STORED IN DATABASE
@@ -502,8 +503,8 @@ $currentMonth = date('F'); ?>
                     //formBtn.html('Upload Image').prop('disabled', false);
                     jQuery('#imgurLink').val(imgLink);
                     form.trigger('reset');
-                } else { // HANDLE ANY ERRORS THROWN
-                    uploadError.html('<p>' + imgurData.message + '</p>').addClass('alert-danger').slideDown();
+                } else { // HANDLE ANY ERRORS THROWN  imgurData.data.size + ' '
+                    uploadError.html('<p>'+ imgurData.success + '</p>').addClass('alert-danger').slideDown();
                     //formBtn.html('Upload Image').prop('disabled', false);
                 }
             },

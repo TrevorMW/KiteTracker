@@ -8,14 +8,12 @@
               <div class="panel-heading">
                   <h4 style="margin:0">Sightings List <span class="label" id="resultNum">Default</span></h4>
               </div>
-              <ul class="panel-body">
-
-              </ul>
+              <ul class="panel-body"></ul>
           </div>
           <ul class="nav navbar-nav">
+              <li><a href="#" id="legend" title="Marker Legend"><span class="glyphicon glyphicon-map-marker"></span></a></li>
+              <li id="legendBox" style="width:0;height:100%;overflow:hidden"><a href="" style="background:#ddd;border-right:1px solid #ccc; border-left:1px solid #ccc;">Hello</a></li>
               <li><a href="#" title="Open Sightings List" id="sightingsPanelTrigger"><span class="glyphicon glyphicon-list"></span></a></li>
-              <li><a href="#">Link</a></li>
-
           </ul>
           <form class="navbar-form navbar-left" role="search" id="changeZip">
               <div class="form-group">
@@ -28,16 +26,25 @@
 	</div>
 
 <script type="text/javascript">
+jQuery(document).on('click','#legend',function(){
+   var legend =  jQuery('#legendBox');
+   if(legend.hasClass('open')){
+       legend.css('width', '0px').removeClass('open');
+   } else {
+       legend.addClass('open').css('width', '350px');
+   }
+});
 
 jQuery(document).on('click','#sightingsPanelTrigger',function(){
-   var height = jQuery(window).height() * .75; console.log(height)
-  jQuery('#js-sightingsList').css('height', height).slideToggle();
+    var height = jQuery(window).height() * .75;
+    jQuery('#js-sightingsList').css('height', height).slideToggle();
 });
 
 // CHANGE ZIP CODE AFTER INITIAL RENDER OF RESULTS
 jQuery('#changeZip').submit(function(event){
 	event.preventDefault();
 	// GRAB NEW ZIP CODE
+  jQuery('#js-sightingsList ul').html('');
 	var zip = jQuery(this).find('input[type="text"]').val();
 	// PASS NEW ZIP CODE THROUGH GEOCODER > INITIALIZE > BUILD_SIGHTINGS
     console.log(typeof zip);
