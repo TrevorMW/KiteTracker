@@ -34,7 +34,12 @@
            // CHECK FOR STORED COORDINATES
            var coords = stored_coordinates();
            // INITIALIZE THE MAP ON EITHER PAGE
-           initialize(coords);
+           if(typeof coords == 'object' && coords.lat != null){
+              initialize(coords);
+           } else {
+              ask_for_zip();
+           }
+
        } else {
            // CHECK FOR STORED COOKIES WITH COORDINATES
            var coords = jQuery.cookie('Kite_Tracker_Coordinates');
@@ -50,7 +55,7 @@
                    var longitude = position.coords.longitude;
                    var coords = {"lat":latitude, "lng":longitude};
                    var local = supports_html5_storage();
-                   if(local == false){
+                   if(local == true){
                        // SET VALUES INTO LOCAL STORAGE
                        localStorage.setItem('storedLatitude', coords.lat);
                        localStorage.setItem('storedLongitude', coords.lng);
@@ -73,32 +78,30 @@
    // SECONDARY AND TERTIARY FUNCTIONS BELOW ARE USED AS CHECKS AND UTILITIES IN CONTROL STRUCTURES ABOVE
    // IF USER DENIES ACCESS TO BROWSER GEOLOCATION, ASK THEM FOR ZIPCODE
    function ask_for_zip(err) {
-       if (err.code == 1) {
-           // IF USER DENIES ACCESS TO LOCATION, SHOW ZIP CODE MODAL
-           jQuery('#zipcode').modal({
-               backdrop:'static',
-               keyboard: false,
-               show:true
-           });
-           // FIND FORM
-           var form = jQuery('#zipForm');
-           // CAPTURE SUBMIT & PREVENT REAL POST SUBMISSION
-           form.submit(function(event){
-               event.preventDefault();
-               // FIND VALUE IN ZIP FORM
-               var zip = form.find('input[type="text"]').val();
-               if(zip == ''){
-                   // IF NO VALUE FOR ZIP CODE, THROW ERROR
-                   zip_error();
-               } else {
-                   // REMOVE ERROR BOX IF THERE, AND PROCEED
-                   jQuery('#zipError').remove();
-                   // SEND THIS ZIP TO GOOGLE GEOCODING FUNCTION
-                   geocode_zip(zip);
-               }
-               return false;
-           });
-       }
+       // IF USER DENIES ACCESS TO LOCATION, SHOW ZIP CODE MODAL
+       jQuery('#zipcode').modal({
+           backdrop:'static',
+           keyboard: false,
+           show:true
+       });
+       // FIND FORM
+       var form = jQuery('#zipForm');
+       // CAPTURE SUBMIT & PREVENT REAL POST SUBMISSION
+       form.submit(function(event){
+           event.preventDefault();
+           // FIND VALUE IN ZIP FORM
+           var zip = form.find('input[type="text"]').val();
+           if(zip == ''){
+               // IF NO VALUE FOR ZIP CODE, THROW ERROR
+               zip_error();
+           } else {
+               // REMOVE ERROR BOX IF THERE, AND PROCEED
+               jQuery('#zipError').remove();
+               // SEND THIS ZIP TO GOOGLE GEOCODING FUNCTION
+               geocode_zip(zip);
+           }
+           return false;
+       });
    }
 
    // DOES THIS BROWSER SUPPORT LOCAL STORAGE (BOOLEAN RETURN VALUE)

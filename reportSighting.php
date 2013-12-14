@@ -424,7 +424,6 @@ $currentMonth = date('F'); ?>
     });
 
     function showAcres(num) {
-
         if (num == 1) {
             jQuery('#showAcres').slideDown();
         } else {
@@ -452,7 +451,7 @@ $currentMonth = date('F'); ?>
         submit_sighting(form);
     });
 
-    function  throw_input_error(input){ console.log(input.parent());
+    function throw_input_error(input){ console.log(input.parent());
         input.parent().addClass('has-error');
     }
 
@@ -466,13 +465,8 @@ $currentMonth = date('F'); ?>
     jQuery('#imageUpload').submit(function (event) { // CATCH FORM SUBMIT
         // PREVENT DEFAULT FORM FUNCTIONALITY
         event.preventDefault();
-        // DEFINE FORM
         var form = jQuery(this);
-        // FORM BUTTON
         var formBtn = form.find('button#uploadImageBtn');
-        // DISABLE FORM BUTTON WHILE UPLOADING
-        //formBtn.text('Hello...').prop('disabled', true).prepend('<img src="http://www.bba-reman.com/images/fbloader.gif" alt=""/>');
-        // GET FORMDATA FOR IMAGES TO SEND TO PHP SCRIPT
         var formData = new FormData(form[0]);
         // CALL AJAX AND POST DATA FROM FORM - RETURN VALUE IS A JSON STRING FROM IMGUR
         var uploadError = jQuery('#UploadError');
@@ -483,7 +477,7 @@ $currentMonth = date('F'); ?>
         // DELETE IMG FIELD AND CLEAR ALL HTML OUT OF IT
         jQuery('#imgContainer').html('').remove();
         // START AJAX FUNCTION TO PUSH IMAGE DATA TO IMGUR PHP SCRIPT
-        jQuery.ajax({
+       jQuery.ajax({
             url:'assets/scripts/upload.php',
             type:'POST',
             data:formData,
@@ -491,8 +485,8 @@ $currentMonth = date('F'); ?>
             headers : { "cache-control": "no-cache" }, // MUST HAVE CACHE BUSTER FOR IOS 6
             success:function (imgurData) { // REGARDLESS OF WHAT IT IS, THERE WILL BE A RESPONSE
                 // PARSE RESPONSE INTO JSON FORMAT
+                console.log(imgurData);
                 var imgurData = JSON.parse(imgurData); //alert(imgurData.success);
-
                 if (imgurData.success == true) { // IF JSON OBJECT RETURNS TRUE, THEN IMGUR SENT THE RESPONSE
                     // BIND IMGUR LINK TO UPLOADED IMAGE - WILL BE STORED IN DATABASE
                     var imgLink = imgurData.data.link;
@@ -534,7 +528,7 @@ $currentMonth = date('F'); ?>
         // CHECK FOR LOCAL STORAGE
         var storage = supports_html5_storage();
         // IF STORAGE ASSUME THERE IS A SET OF STORED COORDINATES
-        if (storage == false) {
+        if (storage == true) {
             var lat = localStorage.getItem('storedLatitude');
             var lng = localStorage.getItem('storedLongitude');
         } else { // ELSE ASSUME THERE IS A COOKIE WITH JSON OBJECT OF COORDINATES
