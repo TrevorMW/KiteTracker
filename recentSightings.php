@@ -1,9 +1,7 @@
 <?php include('assets/inc/header.php'); include('functions.php'); ?>
 
-
-	
 	<div class="col-lg-12 rightCol">
-      <nav class="navbar navbar-default" role="navigation" draggable="true" id="css-toolbar">
+    <nav class="navbar navbar-default" role="navigation" draggable="true" id="css-toolbar">
           <div id="js-sightingsList" class="panel panel-default" style="display:none;">
               <div class="panel-heading">
                   <h4 style="margin:0">Sightings List <span class="label" id="resultNum">Default</span></h4>
@@ -22,10 +20,11 @@
               <button type="submit" class="btn btn-default btn-sm">Submit</button>
           </form>
       </nav>
-		<div id="map-canvas"></div>
+    <div id="map-canvas"></div>
 	</div>
 
 <script type="text/javascript">
+
 jQuery(document).on('click','#legend',function(){
    var legend =  jQuery('#legendBox');
    if(legend.hasClass('open')){
@@ -47,14 +46,12 @@ jQuery('#changeZip').submit(function(event){
   jQuery('#js-sightingsList ul').html('');
 	var zip = jQuery(this).find('input[type="text"]').val();
 	// PASS NEW ZIP CODE THROUGH GEOCODER > INITIALIZE > BUILD_SIGHTINGS
-    console.log(typeof zip);
     if(zip != ''){
         geocode_zip(zip);
     } else {
        jQuery(this).find('.form-group').addClass('has-error').find('input').attr('placeholder','Please Enter Zip Code');
     }
 });
-
 
 
 // THROW ERROR IF ZIP ENTERED IS NOT VALID
@@ -152,7 +149,6 @@ jQuery.ajax({
     success: function(data){
         // IF DATA IS RETURNED, BEGIN PARSING IT AND ADDING MARKERS TO THE MAP
         if(data){
-            jQuery('#resultsMsg').append('<p>We found '+data.length+' sightings in your area.</p>').addClass('alert-success').slideDown();
             build_sightings_list(map, data);
         }
     }
@@ -197,6 +193,9 @@ function add_map_markers(map, sightingObject, markers, i) {
     infoWindow.open(map, marker);
 	}); */
 
+
+
+
 }
 
 function myClick(marker,id){
@@ -226,8 +225,8 @@ function build_sightings_list(map,data, markers){
     for ( var j = 0; j < data.length; j++) {
 
         var sightingsHTML = '<li id="'+data[j].sample_event_id+'">'+
-        '<a href="#" onclick="myClick('+data[j].sample_event_id+');" class="infoWindowHandler">'+
-         '<h4><span class="glyphicon glyphicon-comment infowWindowHandler"></span> '+data[j].sample_event_id+'</h4></a></li>';
+                '<a href="#" onclick="myClick('+data[j].sample_event_id+');" class="infoWindowHandler">'+
+                '<h4><span class="glyphicon glyphicon-comment infowWindowHandler"></span> '+data[j].sample_event_id+'</h4></a></li>';
         jQuery('#js-sightingsList ul').append(sightingsHTML);
 
         var sightingObject = {
@@ -241,7 +240,7 @@ function build_sightings_list(map,data, markers){
             "lng":data[j].longitude
         };
 
-        add_map_markers(map, sightingObject, markers, i);
+        setTimeout(add_map_markers, j++ * 10, map, sightingObject, markers, i)
     }
 }
 </script>

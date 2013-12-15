@@ -20,8 +20,10 @@ class imgurUpload {
    *
    * Calling this method sets Imgur Client Id for basic request
    *
-   * @param str $id
+   * @param string $id
    *    client id received from registering an application with imgur
+   *
+   * @throws exception
    *
    */
   public function set_client_key( $id ){
@@ -93,7 +95,7 @@ class imgurUpload {
    *    An int of filesize in kilobytes
    */
   public function set_max_file_size( $args ){
-    $this->max_image_size = $args;
+    $this->max_image_size = $args * 1024;
   }
 
 
