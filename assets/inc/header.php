@@ -1,5 +1,4 @@
-<?php $permalink = basename($_SERVER['REQUEST_URI']);
-$permalink = str_replace('.php','',$permalink);?>
+<?php require_once('functions.php'); ?>
 <!DOCTYPE html>
 <html>
 <head>

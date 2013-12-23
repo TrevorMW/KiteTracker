@@ -1,44 +1,27 @@
-<?php
+<?php require_once('assets/scripts/db.php');
 
-define('DB_HOST','localhost');
-define('DB_NAME','trevor_SwallowTail');
-define('DB_USER','trevor_raptor');
-define('DB_PASS','hR-G!a%paUKi');
 
-class Connection {
-		
-	function __construct(){
-			
-		try {  
-		
-			$hosts = 'mysql:host='.DB_HOST.';'; 
-			$hosts .= 'dbname='.DB_NAME.'';
-		
-			$db = new PDO($hosts, DB_USER, DB_PASS);
-      
-			return $db; var_dump($db);
-      	
-             
-    } catch(PDOException $e){  
-        
-        echo $e->getMessage(); 
-         
-    }  
-		
-	}
-	
-	
-	
-	function close_connection(){
-		
-		$db = null;
-		
-		echo 'Database Closed';
-		
-	}
-	
-	
+
+function connect_db(){
+
+  define('DB_HOST','localhost');
+  define('DB_NAME','trevor_SwallowTail');
+  define('DB_USER','trevor_raptor');
+  define('DB_PASS','hR-G!a%paUKi');
+
+  try {
+    $hosts = 'mysql:host='.DB_HOST.';';
+    $hosts .= 'dbname='.DB_NAME.'';
+    $db = new PDO($hosts, DB_USER, DB_PASS);
+    if( is_object($db) ){
+      return $db;
+    }
+  } catch( PDOException $e ){
+    echo $e->getMessage();
+  }
 }
+
+
 
 
 function get_day_number($currentMonth){
@@ -52,9 +35,7 @@ function get_day_number($currentMonth){
         case 'february': $output = '28'; break;
         default: $output = '31';
     }
-
      return $output;
-
 }
 
 

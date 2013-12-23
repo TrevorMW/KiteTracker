@@ -17,18 +17,18 @@ try {
 	$hosts = 'mysql:host='.DB_HOST.';'; 
 	$hosts .= 'dbname='.DB_NAME.'';
 	$db = new PDO($hosts, DB_USER, DB_PASS);
-} catch(PDOException $e){  
+} catch( PDOException $e ){
     echo $e->getMessage(); 
-}  //
+}
 
 $q = "SELECT * FROM `kt_fullSightings` WHERE `LATITUDE` < '".$tRlat."' AND `LATITUDE` > '".$bLlat."'AND `LONGITUDE` < '".$tRlng."' AND `LONGITUDE` > '".$bLlng."'";
- //var_dump($q);
-/*$query = $db->query($q);
+
+$query = $db->query($q);
   
-if($query){
-	foreach($query as $q){ 
+if( $query ){
+	foreach( $query as $q ){
 		$returnData[] = $q;
 	}
-	$returnData = json_encode($returnData); */
+	$returnData = json_encode( $returnData ); */
 	echo $q;
 } ?>

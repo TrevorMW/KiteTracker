@@ -9,9 +9,9 @@ $upload->set_client_key('9c616d70834d15a');
 $upload->set_image_attributes($imageData);
 $upload->set_allowed_mime_types($mimes);
 $upload->set_max_file_size(1500);
-$mimeCheck = $upload->check_mime_types($upload->image_attr->type);
-$sizeCheck = $upload->check_image_file_size($upload->image_attr->type);
-$encodedImage = $upload->encode_image($upload->image_attr);
+$mimeCheck = $upload->check_mime_types( $upload->image_attr->type );
+$sizeCheck = $upload->check_image_file_size( $upload->image_attr->type );
+$encodedImage = $upload->encode_image( $upload->image_attr );
 
 if( $mimeCheck == true && $sizeCheck == true ){
   $curl = curl_init();
@@ -22,4 +22,6 @@ if( $mimeCheck == true && $sizeCheck == true ){
     echo $curlResponse;
   }
 }
+
+
 

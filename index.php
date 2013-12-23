@@ -13,6 +13,8 @@
             <h1>Kite Tracker</h1>
         </div>
         <article class="main-content">
+
+            <?php $conn = connect_db();    ?>
             <h1>What is Kite Tracker?</h1>
 
 

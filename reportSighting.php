@@ -1,5 +1,4 @@
 <?php include('assets/inc/header.php');
-include('functions.php');
 $currentMonth = date('F'); ?>
 
 <div class="wrapper report-sighting">
@@ -43,6 +42,8 @@ $currentMonth = date('F'); ?>
             </fieldset>
         </div>
     </div>
+
+
     <div class="row">
         <div class="col-lg-4">
             <fieldset>
@@ -90,7 +91,7 @@ $currentMonth = date('F'); ?>
                     </div>
                     <div class="form-group col-lg-6">
                         <label>Time:</label>
-                        <select name="sightingTime" class="form-control input-sm">
+                        <select name="timeOfDay" class="form-control input-sm">
                             <?php  for ($m = 1; $m <= 12; $m++) {
                             echo "<option value='$m'>$m:00 am</option>";
                         }
@@ -159,7 +160,7 @@ $currentMonth = date('F'); ?>
                     </div>
                     <div class="form-group col-lg-6">
                         <label>County:</label>
-                        <input type="text" name="" placeholder="" class="form-control input-sm" data-regex="^[a-z0-9 ]+"/>
+                        <input type="text" name="county" placeholder="" class="form-control input-sm" data-regex="^[a-z0-9 ]+"/>
                     </div>
                   </div>
 
@@ -193,27 +194,27 @@ $currentMonth = date('F'); ?>
                 <div class="form-group">
                     <label>Have you seen the kites more than once?</label>
                     <label class="radio-inline">
-                        <input type="radio" name="nestObserved" value="0"/>
+                        <input type="radio" name="seenMoreThanOnce" value="0"/>
                         Yes</label>
                     <label class="radio-inline">
-                        <input type="radio" name="nestObserved" value="1"/>
+                        <input type="radio" name="seenMoreThanOnce" value="1"/>
                         No</label>
                 </div>
                 <div class="form-group">
                     <label>Did your sighting occur during the SC Audubon boat survey?</label>
                     <label class="radio-inline">
-                        <input type="radio" name="nestObserved" value="0"/>
+                        <input type="radio" name="boatSurvey" value="0"/>
                         Yes</label>
                     <label class="radio-inline">
-                        <input type="radio" name="nestObserved" value="1"/>
+                        <input type="radio" name="boatSurvey" value="1"/>
                         No</label>
                 </div>
                 <div class="form-group">
                     <label>Did the observation occur on your property?</label>
                     <label class="radio-inline">
-                        <input type="radio" name="nestObserved" value="1" onclick="showAcres(1);"/>Yes</label>
+                        <input type="radio" name="ownProperty" value="1" onclick="showAcres(1);"/>Yes</label>
                     <label class="radio-inline">
-                        <input type="radio" name="nestObserved" value="0" onclick="showAcres(0);"/> No</label>
+                        <input type="radio" name="ownProperty" value="0" onclick="showAcres(0);"/> No</label>
                     <div class="form-group" id="showAcres" style="display:none;">
                         <label>How many acres do you manage?</label>
                         <input type="number" name="acres-managed" class="form-control input-sm"/>
@@ -229,27 +230,27 @@ $currentMonth = date('F'); ?>
                 <div class="form-group">
                     <label>What was the bird doing? <small>(check all that apply)</small> </label>
                     <ul class="multi">
-                        <li><input type="checkbox" name="vehicle" value="Soaring"/>
+                        <li><input type="checkbox" name="kiteActivities[]" value="Soaring"/>
                             <label><a href="#" class="infoWindow" data-toggle="popover" title="Soaring!" data-content="This bird is Soaring">Soaring</a></label>
                         </li>
-                        <li><input type="checkbox" name="vehicle" value="Perching"/>
+                        <li><input type="checkbox" name="kiteActivities[]" value="Perching"/>
                             <label><a href="#" class="infoWindow" data-toggle="popover" title="Perching"  data-content="This bird is perching">Perching</a></label>
                         </li>
-                        <li><input type="checkbox" name="vehicle" value="Carry Nest Materials"/>
+                        <li><input type="checkbox" name="kiteActivities[]" value="Carry Nest Materials"/>
                             <label><a href="#" class="infoWindow" data-toggle="popover" title="Perching" data-content="Carrying Nest Materials (sticks, Spanish Moss)">Carrying
                                 Nest Materials (sticks, Spanish Moss)</a></label>
                         </li>
-                        <li><input type="checkbox" name="vehicle" value="Vocalizing"/>
+                        <li><input type="checkbox" name="kiteActivities[]" value="Vocalizing"/>
                             <label><a href="#" class="infoWindow" data-toggle="popover" title="Perching" data-content="This bird is Vocalizing">Vocalizing</a></label>
                         </li>
-                        <li><input type="checkbox" name="vehicle" value="Vocalizing"/>
+                        <li><input type="checkbox" name="kiteActivities[]" value="Vocalizing"/>
                             <label><a href="#" class="infoWindow" data-toggle="popover" title="Perching" data-content="This bird is Flapping">Flapping</a></label>
                         </li>
-                        <li><input type="checkbox" name="vehicle" value="Foraging over open Habitat"/>
+                        <li><input type="checkbox" name="kiteActivities[]" value="Foraging over open Habitat"/>
                             <label><a href="#"  class="infoWindow" data-toggle="popover" title="Perching" data-content="This bird is Foraging over open habitat">Foraging
                                 over open habitat</a></label>
                         </li>
-                        <li><input type="checkbox" name="vehicle" value="Foraging over forest"/>
+                        <li><input type="checkbox" name="kiteActivities[]" value="Foraging over forest"/>
                             <label><a href="#" class="infoWindow" data-toggle="popover" title="Perching" data-content="This bird is Foraging over forest habitat ">Foraging
                                 over forest habitat </a></label>
                         </li>
@@ -258,10 +259,10 @@ $currentMonth = date('F'); ?>
                 <div class="form-group">
                     <label>Would you be interested in hearing more about managing your land for Swallow-tailed Kites?</label>
                     <label class="radio-inline">
-                        <input type="radio" name="nestObserved" value="0"/>
+                        <input type="radio" name="newsletter" value="0"/>
                         Yes</label>
                     <label class="radio-inline">
-                        <input type="radio" name="nestObserved" value="1"/>
+                        <input type="radio" name="newsletter" value="1"/>
                         No</label>
                 </div>
                 <div class="form-group">
@@ -291,21 +292,21 @@ $currentMonth = date('F'); ?>
                   </div>
                   <div class="form-group col-lg-3">
                       <label>Phone:</label>
-                      <input type="tel" name="Email" class="form-control input-sm" data-regex="^[2-9]\d{2}-\d{3}-\d{4}$" />
+                      <input type="tel" name="phone" class="form-control input-sm" data-regex="^[2-9]\d{2}-\d{3}-\d{4}$" />
                   </div>
               </div>
               <div class="row">
                   <div class="form-group col-lg-5">
                       <label>Address:</label>
-                      <input type="text" name="Email" class="form-control input-sm" data-regex="^[a-z0-9 ,_-]+"/>
+                      <input type="text" name="address" class="form-control input-sm" data-regex="^[a-z0-9 ,_-]+"/>
                   </div>
                   <div class="form-group col-lg-3">
                       <label>City:</label>
-                      <input type="text" name="Email" class="form-control input-sm" data-regex="^[a-z -]+"/>
+                      <input type="text" name="city" class="form-control input-sm" data-regex="^[a-z -]+"/>
                   </div>
                   <div class="form-group col-lg-2">
                       <label>State:</label>
-                      <select name="state" class="form-control input-sm">
+                      <select name="userState" class="form-control input-sm">
                           <option value="Alabama"> Alabama </option>
                           <option value="Alaska"> Alaska </option>
                           <option value="Arizona"> Arizona </option>
@@ -360,7 +361,7 @@ $currentMonth = date('F'); ?>
                   </div>
                   <div class="form-group col-lg-2">
                       <label>Zip Code:</label>
-                      <input type="text" name="Email" class="form-control input-sm" data-regex="^\d{5}$" />
+                      <input type="text" name="userZip" class="form-control input-sm" data-regex="^\d{5}$" />
                   </div>
 
               </div>
@@ -438,11 +439,11 @@ $currentMonth = date('F'); ?>
       form.find('input[type="text"], textarea, input[type="email"]').each(function(){
          var input = jQuery(this);
          input.parent().removeClass('has-error');
-         var regex = jQuery(this).attr('data-regex'); console.log(regex);
+         var regex = jQuery(this).attr('data-regex'); //console.log(regex);
          if(regex){
-             var value = input.val(); console.log(value)
-             var regexObj = new RegExp(regex, 'i'); console.log(regexObj);
-             var outcome = regexObj.test(value); console.log(outcome);
+             var value = input.val(); //console.log(value)
+             var regexObj = new RegExp(regex, 'i'); //console.log(regexObj);
+             var outcome = regexObj.test(value); //console.log(outcome);
              if(outcome == false){
                  throw_input_error(input);
              }
@@ -451,15 +452,24 @@ $currentMonth = date('F'); ?>
         submit_sighting(form);
     });
 
-    function throw_input_error(input){ console.log(input.parent());
+    function throw_input_error(input){
         input.parent().addClass('has-error');
     }
 
     function submit_sighting(form){
-        var formData = form.serialize(); console.log(formData);
-        /*jQuery.ajax({
-          SEND FOR DATA TO PHP SCRIPT
-        }) */
+        var formData = form.serialize();
+        jQuery.ajax({
+            url:'assets/scripts/postSightings.php',
+            type:'POST',
+            data:formData,
+            async:false,
+            success:function(data){
+
+            },
+            cache:false,
+            contentType:false,
+            processData:false
+        });
     }
 
     jQuery('#imageUpload').submit(function (event) { // CATCH FORM SUBMIT
