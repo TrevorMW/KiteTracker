@@ -98,20 +98,20 @@ function initialize(coordinates) {
 	// HIDE ANY PREVIOUS MESSAGES
 	jQuery('#resultsMsg').html('').hide();
 
-    var tRlat = new Number(coordinates.lat) + 0.25;
-    var bLlat = new Number(coordinates.lat) - 0.15;
-    var tRlng = new Number(coordinates.lng) + 0.25;
-    var bLlng = new Number(coordinates.lng) - 0.35;
+  var tRlat = new Number(coordinates.lat) + 0.25;
+  var bLlat = new Number(coordinates.lat) - 0.15;
+  var tRlng = new Number(coordinates.lng) + 0.20;
+  var bLlng = new Number(coordinates.lng) - 0.15;
 
-    // NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
-    var coords = {"lat":coordinates.lat,"long":coordinates.lng, "tRlat":tRlat, "tRlng":tRlng, "bLlat":bLlat, "bLlng":bLlng};
+  // NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
+  var coords = {"lat":coordinates.lat,"long":coordinates.lng, "tRlat":tRlat, "tRlng":tRlng, "bLlat":bLlat, "bLlng":bLlng};
 
-    if(coords.lat == ''){
-        var coords = {'lat':0,'long':0, 'tRlat':0, 'tRlng':0, 'bLlat':0, 'bLlng':0};
-    }
+  if(coords.lat == ''){
+    var coords = {'lat':0,'long':0, 'tRlat':0, 'tRlng':0, 'bLlat':0, 'bLlng':0};
+  }
 
-   	// TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
-    var serializedCoords = jQuery.param(coords);
+  // TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
+  var serializedCoords = jQuery.param(coords);
 
   	// DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
 	var trueHeight = jQuery(window).height() - jQuery('.header nav').height();
@@ -121,21 +121,30 @@ function initialize(coordinates) {
 	// ADD HEIGHT OF PAGE TO MAP
 	mapBox.css('height', trueHeight);
 
-    var center = new google.maps.LatLng(coords.lat, coords.long);
+  var center = new google.maps.LatLng(coords.lat, coords.long);
 
-    // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD
-    var mapOptions = {
-       center: center,
-       zoom: 10,
-       mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+  // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD
+  var mapOptions = {
+        center: center,
+        zoom: 10,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
 
-    // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
-    var map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+  // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
+  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
-    find_sightings_records(map, serializedCoords);
+  console.log(map.getBounds());
+
+  google.maps.event.addListener(map, 'dragend', function() {
+     var coordinates = {'lat':map.center.lat(),'lng':map.center.lng()};
+     jQuery('#js-sightingsList ul').html('');
+     initialize(coordinates);
+  });
+
+  find_sightings_records(map, serializedCoords);
 
 } // END INITALIZE FUNCTION
+
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
