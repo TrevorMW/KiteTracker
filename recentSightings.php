@@ -140,14 +140,16 @@ function initialize(coordinates, zoom){
 
   google.maps.event.addListener(map, 'dragend', function() {
      var coordinates = {'lat':map.center.lat(),'lng':map.center.lng()};
+     var zoom = map.getZoom();
+     map.setZoom(zoom);
      jQuery('#js-sightingsList ul').html('');
-     initialize(coordinates);
+     initialize(coordinates, zoom);
   });
 
   google.maps.event.addDomListener(map,'zoom_changed', function() { alert('zoomed');
       google.maps.event.addListenerOnce(map, 'idle', function () {
-        var zoom = map.getZoom(); console.log(zoom);
-        map.setZoom(zoom); console.log(map.getZoom());
+        var zoom = map.getZoom();
+        map.setZoom(zoom);
         var coordinates = {'lat':map.center.lat(),'lng':map.center.lng()};
         jQuery('#js-sightingsList ul').html('');
         initialize(coordinates, zoom);
@@ -210,7 +212,7 @@ function add_map_markers(map, sightingObject, i, gmarkers) {
 
 function build_sightings_list(map,data){
    var i = 0;
-    var gmarkers = [];
+   var gmarkers = [];
  	 // LOOP THROUGH DATA TO BUILD SIDEBAR LIST
    var numResults =  jQuery('span#resultNum');
     numResults.text(data.length);
@@ -221,12 +223,13 @@ function build_sightings_list(map,data){
     } else {
         numResults.addClass('label-success');
     }
-
+    console.log(data.length);
     for ( var j = 0; j < data.length; j++) {
 
         var sightingsHTML = '<li id="'+data[j].sample_event_id+'">'+
-                '<a href="#" onclick="myclick('+data[j].sample_event_id+');" class="infoWindowHandler"> '+
-                '<h4><span class="glyphicon glyphicon-comment infowWindowHandler"></span>&nbsp;'+data[j].sample_event_id+'</h4></a></li>';
+        '<a href="#" onclick="myclick('+data[j].sample_event_id+');" class="infoWindowHandler"> '+
+        '<h4><span class="glyphicon glyphicon-comment infowWindowHandler"></span>&nbsp;'+data[j].sample_event_id+'</h4></a></li>';
+
         jQuery('#js-sightingsList ul').append(sightingsHTML);
 
         var sightingObject = {
