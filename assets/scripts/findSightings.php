@@ -8,7 +8,8 @@ $bLlng =  $data['bLlng'];
 
 $conn = connect_db();
 
-$q = "SELECT * FROM `kt_fullSightings` WHERE `latitude` < '".$tRlat."' AND `latitude` > '".$bLlat."'AND `longitude` < '".$tRlng."' AND `longitude` > '".$bLlng."'";
+
+$q = "SELECT * FROM `kt_fullSightings` WHERE `latitude` < '".$tRlat."' AND `latitude` > '".$bLlat."' AND `longitude` < '".$tRlng."' AND `longitude` > '".$bLlng."'";
  
 $query = $conn->query($q);
   

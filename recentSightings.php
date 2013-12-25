@@ -98,7 +98,7 @@ function initialize(coordinates) {
 	// HIDE ANY PREVIOUS MESSAGES
 	jQuery('#resultsMsg').html('').hide();
 
-  var tRlat = new Number(coordinates.lat) + 0.25;
+  /* var tRlat = new Number(coordinates.lat) + 0.25;
   var bLlat = new Number(coordinates.lat) - 0.15;
   var tRlng = new Number(coordinates.lng) + 0.20;
   var bLlng = new Number(coordinates.lng) - 0.15;
@@ -111,7 +111,7 @@ function initialize(coordinates) {
   }
 
   // TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
-  var serializedCoords = jQuery.param(coords);
+  var serializedCoords = jQuery.param(coords); */
 
   	// DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
 	var trueHeight = jQuery(window).height() - jQuery('.header nav').height();
@@ -121,19 +121,26 @@ function initialize(coordinates) {
 	// ADD HEIGHT OF PAGE TO MAP
 	mapBox.css('height', trueHeight);
 
-  var center = new google.maps.LatLng(coords.lat, coords.long);
+  var center = new google.maps.LatLng(coordinates.lat, coordinates.lng);
 
   // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD
   var mapOptions = {
         center: center,
-        zoom: 10,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
   // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  var bounds = map.getBounds();
 
-  console.log(map.getBounds());
+  var tRlat = bounds.getNorthEast().lat(); console.log(tRlat);
+  var bLlat = bounds.getSouthWest().lat(); console.log(bLlat);
+  var tRlng = bounds.getNorthEast().lng(); console.log(tRlng);
+  var bLlng = bounds.getSouthWest().lng(); console.log(bLlng);
+
+  var coords = {"tRlat":tRlat, "tRlng":tRlng, "bLlat":bLlat, "bLlng":bLlng};
+  var serializedCoords = jQuery.param(coords);
 
   google.maps.event.addListener(map, 'dragend', function() {
      var coordinates = {'lat':map.center.lat(),'lng':map.center.lng()};
