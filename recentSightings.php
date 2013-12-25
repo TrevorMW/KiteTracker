@@ -93,27 +93,12 @@ function geocode_zip(zip, limit){
 }
 
 // INITIALIZE GOOGLE MAPS WITH APPLICABLE PARAMETERS
-function initialize(coordinates) {
-
+function initialize(coordinates, zoom){
+   currentzoom = zoom;
 	// HIDE ANY PREVIOUS MESSAGES
 	jQuery('#resultsMsg').html('').hide();
 
-  /* var tRlat = new Number(coordinates.lat) + 0.25;
-  var bLlat = new Number(coordinates.lat) - 0.15;
-  var tRlng = new Number(coordinates.lng) + 0.20;
-  var bLlng = new Number(coordinates.lng) - 0.15;
-
-  // NATIVE JSON OF LAT & LONG & CALCULATED BOUNDARIES
-  var coords = {"lat":coordinates.lat,"long":coordinates.lng, "tRlat":tRlat, "tRlng":tRlng, "bLlat":bLlat, "bLlng":bLlng};
-
-  if(coords.lat == ''){
-    var coords = {'lat':0,'long':0, 'tRlat':0, 'tRlng':0, 'bLlat':0, 'bLlng':0};
-  }
-
-  // TURN JSON COORDINATE OBJECT INTO PARAMETERS TO SEND TO AJAX
-  var serializedCoords = jQuery.param(coords); */
-
-  	// DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
+  // DEFINE CERTAIN VARIABLES USED TO BUILD PAGE STRUCTURE
 	var trueHeight = jQuery(window).height() - jQuery('.header nav').height();
 	var mapBox = jQuery('#map-canvas');
 	var leftCol = jQuery('.leftCol');
@@ -123,29 +108,50 @@ function initialize(coordinates) {
 
   var center = new google.maps.LatLng(coordinates.lat, coordinates.lng);
 
+  if(currentzoom != null){
+     zoomLevel = zoom;
+  }  else {
+     zoomLevel = 12;
+  }
+
   // SET MAP OPTIONS DEPENDING ON GEOLOCATION METHOD
   var mapOptions = {
         center: center,
-        zoom: 12,
+        zoom: zoomLevel,
         mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
   // BUILD MAP WITH WHATEVER CURRENT VARIABLES AND DATABASE INFORMATION IS PRESENT
   var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
   var bounds = map.getBounds();
 
-  var tRlat = bounds.getNorthEast().lat(); console.log(tRlat);
-  var bLlat = bounds.getSouthWest().lat(); console.log(bLlat);
-  var tRlng = bounds.getNorthEast().lng(); console.log(tRlng);
-  var bLlng = bounds.getSouthWest().lng(); console.log(bLlng);
+  if(bounds){
+    var tRlat = bounds.getNorthEast().lat();
+    var bLlat = bounds.getSouthWest().lat();
+    var tRlng = bounds.getNorthEast().lng();
+    var bLlng = bounds.getSouthWest().lng();
 
-  var coords = {"tRlat":tRlat, "tRlng":tRlng, "bLlat":bLlat, "bLlng":bLlng};
-  var serializedCoords = jQuery.param(coords);
+    var coords = {"tRlat":tRlat, "tRlng":tRlng, "bLlat":bLlat, "bLlng":bLlng};
+
+    var serializedCoords = jQuery.param(coords);
+
+  }
 
   google.maps.event.addListener(map, 'dragend', function() {
      var coordinates = {'lat':map.center.lat(),'lng':map.center.lng()};
      jQuery('#js-sightingsList ul').html('');
      initialize(coordinates);
+  });
+
+  google.maps.event.addDomListener(map,'zoom_changed', function() { alert('zoomed');
+      google.maps.event.addListenerOnce(map, 'idle', function () {
+        var zoom = map.getZoom(); console.log(zoom);
+        map.setZoom(zoom); console.log(map.getZoom());
+        var coordinates = {'lat':map.center.lat(),'lng':map.center.lng()};
+        jQuery('#js-sightingsList ul').html('');
+        initialize(coordinates, zoom);
+      });
   });
 
   find_sightings_records(map, serializedCoords);

@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18c2e21e-1a01-44fe-a430-ccfb5486f474" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/scripts/findSightings.php" afterPath="$PROJECT_DIR$/assets/scripts/findSightings.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recentSightings.php" afterPath="$PROJECT_DIR$/recentSightings.php" />
     </list>
     <ignored path="KiteTracker.iws" />
@@ -77,7 +75,7 @@
       <file leaf-file-name="recentSightings.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/recentSightings.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="128" column="16" selection-start="4779" selection-end="4779" vertical-scroll-proportion="0.46495727">
+            <state line="96" column="22" selection-start="3661" selection-end="3661" vertical-scroll-proportion="-0.62905985">
               <folding />
             </state>
           </provider>
@@ -557,7 +555,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/recentSightings.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="16" selection-start="4779" selection-end="4779" vertical-scroll-proportion="0.46495727">
+        <state line="96" column="22" selection-start="3661" selection-end="3661" vertical-scroll-proportion="-0.62905985">
           <folding />
         </state>
       </provider>
