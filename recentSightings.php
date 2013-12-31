@@ -1,5 +1,7 @@
 <?php include('assets/inc/header.php');?>
-
+<style>
+    #legend-icons li{display:inline-block;}
+</style>
 	<div class="col-lg-12 rightCol">
     <nav class="navbar navbar-default" role="navigation" draggable="true" id="css-toolbar">
           <div id="js-sightingsList" class="panel panel-default" style="display:none;">
@@ -10,7 +12,13 @@
           </div>
           <ul class="nav navbar-nav">
               <li><a href="#" id="legend" title="Marker Legend"><span class="glyphicon glyphicon-map-marker"></span></a></li>
-              <li id="legendBox" style="width:0;height:100%;overflow:hidden"><a href="" style="background:#ddd;border-right:1px solid #ccc; border-left:1px solid #ccc;">Hello</a></li>
+              <li id="legendBox" style="width:0;height:100%;overflow:hidden">
+                  <ul id="legend-icons">
+                      <li><a href=""><span class="glyphicon glyphicon-map-marker" style="color:blue;"></span></a></li>
+                      <li><a href=""><span class="glyphicon glyphicon-map-marker" style="color:green;"></span></a></li>
+                      <li><a href=""><span class="glyphicon glyphicon-map-marker" style="color:red;"></span></a></li>
+                  </ul>
+              </li>
               <li><a href="#" title="Open Sightings List" id="sightingsPanelTrigger"><span class="glyphicon glyphicon-list"></span></a></li>
           </ul>
           <form class="navbar-form navbar-left" role="search" id="changeZip">
@@ -146,7 +154,7 @@ function initialize(coordinates, zoom){
      initialize(coordinates, zoom);
   });
 
-  google.maps.event.addDomListener(map,'zoom_changed', function() { alert('zoomed');
+  google.maps.event.addDomListener(map,'zoom_changed', function() {
       google.maps.event.addListenerOnce(map, 'idle', function () {
         var zoom = map.getZoom();
         map.setZoom(zoom);
