@@ -13,11 +13,14 @@ function connect_db(){
     $hosts = 'mysql:host='.DB_HOST.';';
     $hosts .= 'dbname='.DB_NAME.'';
     $db = new PDO($hosts, DB_USER, DB_PASS);
-    if( is_object($db) ){
-      return $db;
-    }
+    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
   } catch( PDOException $e ){
     echo $e->getMessage();
+  }
+  if( is_object($db) ){
+    return $db;
+  } else {
+    return '';
   }
 }
 

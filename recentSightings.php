@@ -188,7 +188,7 @@ jQuery.ajax({
 
 }
 
-function add_map_markers(map, sightingObject, i, gmarkers) {
+function add_map_markers(map, sightingObject, gmarkers) {
 
 	// BUILD MARKUP FOR EACH MARKER INFOWINDOW
 	var contentString = '<div class="google-info-window" id="info-window">'+'<h3>'+ sightingObject['species_name'] +'</h3>'+'<div  class="info-window-content">'+
@@ -218,58 +218,47 @@ function add_map_markers(map, sightingObject, i, gmarkers) {
 }
 
 
-function build_sightings_list(map,data){
+function build_sightings_list(map, data){
    var i = 0;
    var gmarkers = [];
- 	 // LOOP THROUGH DATA TO BUILD SIDEBAR LIST
+
    var numResults =  jQuery('span#resultNum');
     numResults.text(data.length);
     numResults.removeClass('label-success').removeClass('label-danger');
 
-    if(data.length <= 0){
-        numResults.addClass('label-danger');
-    } else {
+    if(data.length > 0){
+
         numResults.addClass('label-success');
+
+        for ( var j = 0; j < data.length; j++) {
+
+            var sightingsHTML = '<li id="'+data[j].sample_event_id+'">'+
+                    '<a href="#" onclick="myclick('+data[j].sample_event_id+');" class="infoWindowHandler"> '+
+                    '<h4><span class="glyphicon glyphicon-comment infowWindowHandler"></span>&nbsp;'+data[j].sample_event_id+'</h4></a></li>';
+
+            jQuery('#js-sightingsList ul').append(sightingsHTML);
+
+            var sightingObject = {
+                "id":data[j].sample_event_id,
+                "state":data[j].state,
+                "county":data[j].county,
+                "scientific":data[j].scientific_name,
+                "taxNum":data[j].taxanomic_order_number,
+                "species_name":data[j].common_name,
+                "lat":data[j].latitude,
+                "lng":data[j].longitude
+            };
+
+            setTimeout(add_map_markers, i++ * 10, map, sightingObject, gmarkers)
+        }
+
+    } else {
+        numResults.addClass('label-danger');
+
     }
-    console.log(data.length);
-    for ( var j = 0; j < data.length; j++) {
 
-        var sightingsHTML = '<li id="'+data[j].sample_event_id+'">'+
-        '<a href="#" onclick="myclick('+data[j].sample_event_id+');" class="infoWindowHandler"> '+
-        '<h4><span class="glyphicon glyphicon-comment infowWindowHandler"></span>&nbsp;'+data[j].sample_event_id+'</h4></a></li>';
-
-        jQuery('#js-sightingsList ul').append(sightingsHTML);
-
-        var sightingObject = {
-            "id":data[j].sample_event_id,
-            "state":data[j].state,
-            "county":data[j].county,
-            "scientific":data[j].scientific_name,
-            "taxNum":data[j].taxanomic_order_number,
-            "species_name":data[j].common_name,
-            "lat":data[j].latitude,
-            "lng":data[j].longitude
-        };
-
-        setTimeout(add_map_markers, j++ * 10, map, sightingObject, i, gmarkers)
-    }
-
-
+    console.log(data);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </script>
 
